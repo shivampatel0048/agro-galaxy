@@ -12,4 +12,16 @@ body {
   }
 }
 
-@layer utilities {}
+@layer utilities {
+  .customized_container {
+    @apply px-4 sm:px-9 md:px-12 lg:px-16 xl:px-20 2xl:px-6 3xl:px-0 mx-auto max-w-7xl 2xl:max-w-[90%] 3xl:max-w-[80%];
+  }
+
+  .flex-between {
+    @apply flex items-center justify-between;
+  }
+
+  .flex-center {
+    @apply flex items-center justify-center;
+  }
+}
