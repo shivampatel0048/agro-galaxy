@@ -64,17 +64,26 @@ const Navbar = () => {
                         </div> */}
 
                         {/* Desktop Navigation */}
-                        <div className="hidden md:flex items-center space-x-8">
-                            {navLinks.map((link) => (
-                                <Link
-                                    key={link.href}
-                                    href={link.href}
-                                    className={`nav-link text-gray-700 hover:text-blue-500 transition-colors duration-200 ${pathname.includes(link.href) ? 'text-blue-500' : ''}`}
-                                >
-                                    {link.label}
-                                </Link>
-                            ))}
-                            <div className="flex items-center space-x-8">
+                        <div className="hidden md:flex items-center gap-x-8">
+                            {navLinks.map((link) => {
+                                const normalizedPathname = pathname.replace(/\/$/, '');
+                                const normalizedHref = link.href.replace(/\/$/, '');
+                                const isActive = normalizedPathname === normalizedHref;
+
+                                return (
+                                    <Link
+                                        key={link.href}
+                                        href={link.href}
+                                        className={`relative py-2 group ${isActive ? 'text-blue-500' : 'text-gray-700'
+                                            }`}
+                                    >
+                                        {link.label}
+                                        <span className={`absolute bottom-0 left-0 w-full h-0.5 bg-blue-500 transform origin-left transition-transform duration-300 ease-out ${isActive ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100'
+                                            }`} />
+                                    </Link>
+                                );
+                            })}
+                            <div className="flex items-center gap-x-8">
                                 <button className="relative">
                                     <ShoppingCart className="h-6 w-6 text-gray-700 hover:text-blue-500 transition-colors duration-200" />
                                     <span className="absolute -top-2 -right-2 bg-blue-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
@@ -115,13 +124,13 @@ const Navbar = () => {
                     <div className="h-full flex flex-col pt-20 px-4">
 
                         {/* Mobile Navigation Links */}
-                        <div className="flex items-center flex-col space-y-6 flex-grow pt-8">
+                        <div className="flex items-center flex-col gap-y-6 flex-grow pt-8">
                             {navLinks.map((link) => (
                                 <Link
                                     key={link.href}
                                     href={link.href}
                                     onClick={handleNavClick}
-                                    className={`text-xl font-medium text-gray-700 hover:text-blue-500 transition-colors duration-200 ${pathname.includes(link.href) ? 'text-blue-500' : ''}`}
+                                    className={`text-xl font-medium text-gray-700 hover:text-blue-500 transition-colors duration-200`}
                                 >
                                     {link.label}
                                 </Link>
