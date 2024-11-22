@@ -34,45 +34,15 @@ const products = [
         description: "Advanced aerial crop monitoring system",
         image: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158",
     },
-    {
-        name: "Smart Irrigation System",
-        description: "Automated water management for optimal crop growth",
-        image: "https://images.unsplash.com/photo-1465379944081-7f47de8d74ac",
-    },
-    {
-        name: "Soil Analysis Kit",
-        description: "Professional-grade soil testing equipment",
-        image: "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d",
-    },
-    {
-        name: "Drone Mapping Solution",
-        description: "Advanced aerial crop monitoring system",
-        image: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158",
-    },
-    {
-        name: "Smart Irrigation System",
-        description: "Automated water management for optimal crop growth",
-        image: "https://images.unsplash.com/photo-1465379944081-7f47de8d74ac",
-    },
-    {
-        name: "Soil Analysis Kit",
-        description: "Professional-grade soil testing equipment",
-        image: "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d",
-    },
-    {
-        name: "Drone Mapping Solution",
-        description: "Advanced aerial crop monitoring system",
-        image: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158",
-    },
 ];
 
-const page = () => {
+export const ProductsSection = () => {
     return (
-        <Section id="products" className="bg-background  -mt-8">
-            <h2 className="text-3xl font-bold text-text-primary md:text-4xl">
-                Products
+        <Section id="products" className="bg-background">
+            <h2 className="text-center text-3xl font-bold text-text-primary md:text-4xl">
+                Featured Products
             </h2>
-            <p className="mt-4 max-w-2xl text-gray-600">
+            <p className="mx-auto mt-4 max-w-2xl text-center text-gray-600">
                 Discover our range of innovative agricultural solutions designed to enhance
                 your farming operations
             </p>
@@ -115,7 +85,5 @@ const page = () => {
                 ))}
             </div>
         </Section>
-    )
-}
-
-export default page
+    );
+};
