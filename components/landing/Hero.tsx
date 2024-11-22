@@ -12,7 +12,7 @@ export const Hero = () => {
             <iframe
                 src="https://www.youtube.com/embed/nziA33FrhoI?autoplay=1&mute=1&controls=0&loop=1&playlist=nziA33FrhoI&showinfo=0"
                 title="Agriculture Background Video"
-                className="absolute inset-0 h-full w-full object-cover scale-[1.33]"
+                className="absolute inset-0 h-full w-full object-cover scale-[6] sm:scale-[5] md:scale-[4] lg:scale-[1.33]"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
             />
             <div className="relative z-20 flex h-full items-center justify-center text-center">
