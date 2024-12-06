@@ -82,7 +82,7 @@ export const Hero = () => {
             aria-label="Previous Slide"
           >
             &#8592;
-          </button>
+          </button> 
           <button
             className="bg-white/20 text-white hover:bg-white/40 p-2 rounded-full"
             onClick={handleNext}
