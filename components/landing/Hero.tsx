@@ -4,11 +4,7 @@ import { Button } from "../ui/button";
 import { useState, useEffect } from "react";
 import { Transition } from "@headlessui/react";
 
-const images = [
-  "/images/farm1.jpg",
-  "/images/farm2.jpg",
-  "/images/farm3.jpg",
-];
+const images = ["/images/farm1.jpg", "/images/farm2.jpg", "/images/farm3.jpg"];
 
 const imageTexts = [
   "खेतों को जब पानी की जरूरत होती है तो आसमान बरसता है या तो आँखें।",
@@ -65,8 +61,8 @@ export const Hero = () => {
                 className="h-full w-full object-cover"
               />
               {/* Text Overlay */}
-              <div className="absolute inset-0 flex items-center justify-center z-20">
-                <h2 className="text-white text-3xl md:text-5xl font-bold text-center px-4 shadow-md">
+              <div className="absolute inset-0 flex items-center justify-center z-20 px-4">
+                <h2 className="text-white text-3xl md:text-5xl font-bold text-center px-4  max-w-2xl leading-relaxed">
                   {imageTexts[index]}
                 </h2>
               </div>
@@ -82,7 +78,7 @@ export const Hero = () => {
             aria-label="Previous Slide"
           >
             &#8592;
-          </button> 
+          </button>
           <button
             className="bg-white/20 text-white hover:bg-white/40 p-2 rounded-full"
             onClick={handleNext}
@@ -99,7 +95,8 @@ export const Hero = () => {
             Empowering Farmers with the Future of Agriculture
           </h1>
           <p className="mt-6 animate-fade-up text-lg text-white/90 md:text-xl [animation-delay:200ms]">
-            Discover innovative tools and solutions for smarter, sustainable farming
+            Discover innovative tools and solutions for smarter, sustainable
+            farming
           </p>
           <div className="mt-8 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
             <Button

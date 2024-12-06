@@ -96,7 +96,7 @@ const Page = () => {
             {/* Social Buttons */}
             <div className="text-center text-gray-500 mt-4">or</div>
             <div className="grid grid-cols-2 gap-4">
-              <button
+              {/* <button
                 type="button"
                 className="flex items-center justify-center bg-red-500 text-white py-2 rounded-lg hover:bg-red-600 transition"
               >
@@ -106,8 +106,8 @@ const Page = () => {
                   className="w-6 h-6 mr-2"
                 />
                 Google
-              </button>
-              <button
+              </button> */}
+              {/* <button
                 type="button"
                 className="flex items-center justify-center bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition"
               >
@@ -117,10 +117,10 @@ const Page = () => {
                   className="w-6 h-6 mr-2"
                 />
                 Facebook
-              </button>
+              </button> */}
             </div>
           </form>
-          <p className="text-center text-gray-600 mt-6 text-sm">
+          <p className="text-center text-gray-600  text-sm">
             Why Create an Account?{" "}
             <span className="text-green-600 hover:underline cursor-pointer">
               Learn more
