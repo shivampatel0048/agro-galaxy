@@ -18,45 +18,57 @@ const Page = () => {
     };
 
     return (
-        <main className="min-h-screen bg-background">
+        <main className="min-h-screen bg-gradient-to-r from-blue-50 to-indigo-50">
             <Section className="py-16">
-                <div className="grid md:grid-cols-2 gap-12">
-                    <div>
-                        <h1 className="text-4xl font-bold text-text-primary mb-6">Contact Us</h1>
-                        <p className="text-gray-600 mb-8">
+                <div className="grid md:grid-cols-2 gap-12 items-center">
+                    {/* Contact Details Section */}
+                    <div className="space-y-6">
+                        <h1 className="text-5xl font-extrabold text-indigo-800 animate-fade-in mb-6">Contact Us</h1>
+                        <p className="text-lg text-gray-700 leading-relaxed">
                             Have questions? We&apos;d love to hear from you. Send us a message and we&apos;ll respond as soon as possible.
                         </p>
-                        <div className="space-y-4">
-                            <div>
-                                <h3 className="font-semibold text-text-primary">Address</h3>
-                                <p className="text-gray-600">123 Farm Road, Agricultural District</p>
-                                <p className="text-gray-600">Harvest Valley, CA 95123</p>
+                        <div className="space-y-6">
+                            <div className="flex items-start space-x-4">
+                                <div className="bg-indigo-100 p-3 rounded-full">
+                                    <span className="text-indigo-700 text-xl">📍</span>
+                                </div>
+                                <div>
+                                    <h3 className="font-semibold text-indigo-800">Address</h3>
+                                    <p className="text-gray-700">123 Farm Road, Agricultural District</p>
+                                    <p className="text-gray-700">Harvest Valley, CA 95123</p>
+                                </div>
                             </div>
-                            <div>
-                                <h3 className="font-semibold text-text-primary">Email</h3>
-                                <p className="text-gray-600">contact@agrogalaxy.com</p>
+                            <div className="flex items-start space-x-4">
+                                <div className="bg-indigo-100 p-3 rounded-full">
+                                    <span className="text-indigo-700 text-xl">📧</span>
+                                </div>
+                                <div>
+                                    <h3 className="font-semibold text-indigo-800">Email</h3>
+                                    <p className="text-gray-700">contact@agrogalaxy.com</p>
+                                </div>
                             </div>
-                            <div>
-                                <h3 className="font-semibold text-text-primary">Phone</h3>
-                                <p className="text-gray-600">(123) 456-7890</p>
+                            <div className="flex items-start space-x-4">
+                                <div className="bg-indigo-100 p-3 rounded-full">
+                                    <span className="text-indigo-700 text-xl">📞</span>
+                                </div>
+                                <div>
+                                    <h3 className="font-semibold text-indigo-800">Phone</h3>
+                                    <p className="text-gray-700">(123) 456-7890</p>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <div>
+
+                    {/* Contact Form Section */}
+                    <div className="bg-white shadow-lg rounded-lg p-8 animate-slide-in">
                         <form onSubmit={handleSubmit} className="space-y-6">
-                            <div>
-                                <Input placeholder="Your Name" required />
-                            </div>
-                            <div>
-                                <Input type="email" placeholder="Your Email" required />
-                            </div>
-                            <div>
-                                <Input placeholder="Subject" required />
-                            </div>
-                            <div>
-                                <Textarea placeholder="Your Message" className="min-h-[150px]" required />
-                            </div>
-                            <Button type="submit" className="w-full">Send Message</Button>
+                            <Input placeholder="Your Name" required className="rounded-lg border-gray-300 focus:ring-indigo-500" />
+                            <Input type="email" placeholder="Your Email" required className="rounded-lg border-gray-300 focus:ring-indigo-500" />
+                            <Input placeholder="Subject" required className="rounded-lg border-gray-300 focus:ring-indigo-500" />
+                            <Textarea placeholder="Your Message" className="min-h-[150px] rounded-lg border-gray-300 focus:ring-indigo-500" required />
+                            <Button type="submit" className="w-full bg-indigo-700 hover:bg-indigo-800 text-white font-bold py-3 rounded-lg transition-all">
+                                Send Message
+                            </Button>
                         </form>
                     </div>
                 </div>

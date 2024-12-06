@@ -1,4 +1,4 @@
-'use client'
+'use client';
 
 import { Section } from "@/components/ui/Section";
 import { Input } from "@/components/ui/input";
@@ -19,7 +19,7 @@ export const SubscriptionSection = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     toast({
-      title: "Successfully subscribed!",
+      title: "Successfully Subscribed!",
       description: "Thank you for joining our community.",
     });
     setEmail("");
@@ -29,67 +29,97 @@ export const SubscriptionSection = () => {
   };
 
   return (
-    <Section className="bg-background">
-      <div className="grid gap-12 lg:grid-cols-2">
-        <div className="relative h-[400px] overflow-hidden rounded-lg">
+    <Section className="bg-background py-12 lg:py-16">
+      <div className="grid gap-12 lg:grid-cols-2 items-center">
+        {/* Image Section */}
+        <div className="relative h-[400px] lg:h-[450px] overflow-hidden rounded-lg shadow-lg">
           <Image
             src="https://images.unsplash.com/photo-1506744038136-46273834b3fb"
-            alt="Subscribe"
+            alt="Stay Updated"
             className="h-full w-full object-cover"
             width={800}
             height={800}
           />
         </div>
-        <div className="flex flex-col justify-center">
-          <h2 className="text-3xl font-bold text-text-primary md:text-4xl">
+
+        {/* Form Section */}
+        <div className="flex flex-col justify-center px-4 lg:px-8">
+          <h2 className="text-4xl font-extrabold text-text-primary leading-tight md:text-5xl">
             Stay Updated
           </h2>
-          <p className="mt-4 text-gray-600">
+          <p className="mt-4 text-lg text-gray-600">
             Sign up for exclusive updates and early launch offers!
           </p>
-          <form onSubmit={handleSubmit} className="mt-8 space-y-4">
-            <div>
+          <form
+            onSubmit={handleSubmit}
+            className="mt-8 space-y-6 bg-white shadow-md p-6 rounded-lg border border-gray-200"
+          >
+            {/* Name Input */}
+            <div className="space-y-2">
+              <label htmlFor="name" className="text-sm font-semibold text-gray-700">
+                Your Name
+              </label>
               <Input
+                id="name"
                 type="text"
-                placeholder="Your Name"
+                placeholder="Enter your name"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 required
+                className="p-3 rounded-md border-gray-300 focus:ring-2 focus:ring-primary"
               />
             </div>
-            <div>
+
+            {/* Email Input */}
+            <div className="space-y-2">
+              <label htmlFor="email" className="text-sm font-semibold text-gray-700">
+                Your Email
+              </label>
               <Input
+                id="email"
                 type="email"
-                placeholder="Your Email"
+                placeholder="Enter your email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
+                className="p-3 rounded-md border-gray-300 focus:ring-2 focus:ring-primary"
               />
             </div>
-            <div>
+
+            {/* Updates Selection */}
+            <div className="space-y-2">
+              <label htmlFor="updates" className="text-sm font-semibold text-gray-700">
+                Select Updates
+              </label>
               <Select
+                id="updates"
                 value={updates}
                 onValueChange={setUpdates}
+                className="p-3 rounded-md border-gray-300 focus:ring-2 focus:ring-primary"
               >
                 <option value="all">All Updates</option>
                 <option value="products">Product Updates</option>
                 <option value="news">News & Blog Posts</option>
               </Select>
             </div>
-            <div className="flex items-center space-x-2">
+
+            {/* Checkbox */}
+            <div className="flex items-center space-x-3">
               <Checkbox
                 id="farmer"
                 checked={isFarmer}
                 onCheckedChange={(checked) => setIsFarmer(checked as boolean)}
               />
-              <label
-                htmlFor="farmer"
-                className="text-sm leading-none text-gray-600"
-              >
+              <label htmlFor="farmer" className="text-sm text-gray-600">
                 I am a farmer looking for recommendations
               </label>
             </div>
-            <Button type="submit" className="w-full">
+
+            {/* Submit Button */}
+            <Button
+              type="submit"
+              className="w-full bg-primary text-white py-3 rounded-md hover:bg-primary-dark transition"
+            >
               Subscribe Now
             </Button>
           </form>

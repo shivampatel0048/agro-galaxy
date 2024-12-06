@@ -36,33 +36,35 @@ export const TestimonialsSection = () => {
   }, []);
 
   return (
-    <Section className="bg-primary text-white">
+    <Section className="bg-green-900 text-white py-16">
       <div className="mx-auto max-w-4xl text-center">
-        <h2 className="text-3xl font-bold md:text-4xl">What Farmers Say</h2>
-        <div className="relative mt-12 h-[300px]">
-          {testimonials.map((testimonial, index) => (
-            <div
-              key={testimonial.name}
-              className={`absolute inset-0 transition-opacity duration-1000 ${
-                currentTestimonial === index ? "opacity-100" : "opacity-0"
-              }`}
-            >
-              <div className="mx-auto mb-6 h-20 w-20 overflow-hidden rounded-full">
-                <Image
-                  src={testimonial.image}
-                  alt={testimonial.name}
-                  className="h-full w-full object-cover"
-                  width={100}
-                  height={100}
-                />
+        <h2 className="text-4xl font-bold text-accent mb-8">What Farmers Say</h2>
+        <div className="relative mt-12">
+          <div className="flex space-x-6 overflow-hidden">
+            {testimonials.map((testimonial, index) => (
+              <div
+                key={testimonial.name}
+                className={`w-full max-w-xs rounded-lg bg-white p-6 shadow-lg transition-transform duration-1000 ${
+                  currentTestimonial === index ? "transform scale-105" : "transform scale-95"
+                }`}
+              >
+                <div className="mx-auto mb-6 h-20 w-20 overflow-hidden rounded-full border-4 border-green-900">
+                  <Image
+                    src={testimonial.image}
+                    alt={testimonial.name}
+                    className="h-full w-full object-cover"
+                    width={100}
+                    height={100}
+                  />
+                </div>
+                <blockquote className="mb-4 text-xl italic text-gray-800">
+                  {`"${testimonial.quote}"`}
+                </blockquote>
+                <p className="font-semibold text-2xl text-green-900">{testimonial.name}</p>
+                <p className="text-sm text-gray-600">{testimonial.role}</p>
               </div>
-              <blockquote className="mb-4 text-xl italic">
-                {`"${testimonial.quote}"`}
-              </blockquote>
-              <p className="font-semibold">{testimonial.name}</p>
-              <p className="text-sm opacity-75">{testimonial.role}</p>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
         <div className="mt-6 flex justify-center gap-2">
           {testimonials.map((_, index) => (
@@ -70,9 +72,7 @@ export const TestimonialsSection = () => {
               key={index}
               onClick={() => setCurrentTestimonial(index)}
               className={`h-2 w-2 rounded-full transition-all ${
-                currentTestimonial === index
-                  ? "bg-white w-4"
-                  : "bg-white/50"
+                currentTestimonial === index ? "bg-green-900 w-4" : "bg-white/50"
               }`}
             />
           ))}
