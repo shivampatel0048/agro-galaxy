@@ -3,6 +3,7 @@
 import { Button } from "../ui/button";
 import { useState, useEffect } from "react";
 import { Transition } from "@headlessui/react";
+import Image from "next/image";
 
 const images = ["/images/farm1.jpg", "/images/farm2.jpg", "/images/farm3.jpg"];
 
@@ -39,13 +40,13 @@ export const Hero = () => {
   };
 
   return (
-    <section className="relative h-screen min-h-[600px] w-full overflow-hidden">
+    <section className="relative h-[calc(100vh-4rem)] min-h-[600px] w-full overflow-hidden">
       <div className="absolute inset-0 bg-black/40 z-10" />
       <div className="relative h-full w-full">
         {/* Carousel */}
         {images.map((image, index) => (
           <Transition
-            key={index}
+            key={index + image}
             show={index === currentIndex}
             enter="transition-opacity duration-1000"
             enterFrom="opacity-0"
@@ -55,14 +56,16 @@ export const Hero = () => {
             leaveTo="opacity-0"
           >
             <div className="absolute inset-0">
-              <img
+              <Image
                 src={image}
                 alt={`Background ${index + 1}`}
                 className="h-full w-full object-cover"
+                fill
+                priority
               />
               {/* Text Overlay */}
               <div className="absolute inset-0 flex items-center justify-center z-20 px-4">
-                <h2 className="text-white text-3xl md:text-5xl font-bold text-center px-4  max-w-2xl leading-relaxed">
+                <h2 className="text-white text-5xl md:text-5xl font-bold text-center px-4  max-w-2xl leading-relaxed lg:leading-loose">
                   {imageTexts[index]}
                 </h2>
               </div>

@@ -1,7 +1,5 @@
 import { Section } from "@/components/ui/Section";
-import { Badge } from "@/components/ui/badge";
 import Image from "next/image";
-import Link from "next/link";
 
 const products = [
   {
@@ -35,7 +33,7 @@ const products = [
 ];
 
 
-export const page = () => {
+const Page = () => {
   return (
     <Section id="products" className="bg-background py-16">
       <h2 className="text-center text-4xl font-bold text-text-primary md:text-5xl">
@@ -47,7 +45,6 @@ export const page = () => {
       </p>
       <div
         className="mt-12 grid gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4"
-        // Adjust grid for different screen sizes
       >
         {products.map((product, idx) => (
           <div
@@ -91,7 +88,7 @@ export const page = () => {
         ))}
       </div>
     </Section>
-  );
-};
+  )
+}
 
-export default page;
+export default Page

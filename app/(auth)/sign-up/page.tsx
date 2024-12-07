@@ -4,17 +4,91 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Section } from "@/components/ui/Section";
 import { useToast } from "@/hooks/use-toast";
+import { signup } from "@/redux/apis/authAPI";
+import { setToken } from "@/utils/tokenUtils";
+import { Loader } from "lucide-react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 const Page = () => {
   const { toast } = useToast();
+  const router = useRouter();
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  // State to hold form data
+  const [formData, setFormData] = useState({
+    name: '',
+    emailOrPhone: '',
+    password: '',
+    confirmPassword: '',
+  });
+
+  // Update form data
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormData((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    toast({
-      title: "Coming Soon",
-      description: "Sign up functionality will be available soon!",
-    });
+
+    const { name, emailOrPhone, password, confirmPassword } = formData;
+
+    if (password !== confirmPassword) {
+      toast({
+        title: "Error",
+        description: "Passwords do not match. Please try again.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    // Regex for email and phone validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const phoneRegex = /^[0-9]{10}$/;
+
+    if (!emailOrPhone || (!emailRegex.test(emailOrPhone) && !phoneRegex.test(emailOrPhone))) {
+      toast({
+        title: "Error",
+        description: "Please provide a valid email or phone number.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    setIsLoading(true);
+
+    try {
+      const query = emailRegex.test(emailOrPhone)
+        ? { email: emailOrPhone }
+        : { phone: emailOrPhone };
+
+      const response = await signup({ name, ...query, password });
+      const { token } = response;
+
+      setToken(token);
+
+      toast({
+        title: "Success",
+        description: "Account created successfully! Redirecting to home...",
+      });
+
+      router.push("/");
+
+    } catch (error: any) {
+      console.error("Signup Error:", error);
+      toast({
+        title: "Error",
+        description: error.response?.data?.error || "Something went wrong. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -37,6 +111,9 @@ const Page = () => {
             <div className="relative">
               <Input
                 type="text"
+                name="name"
+                value={formData.name}
+                onChange={handleChange}
                 placeholder="Full Name"
                 required
                 className="pl-12 py-3"
@@ -48,7 +125,10 @@ const Page = () => {
             {/* Email */}
             <div className="relative">
               <Input
-                type="email"
+                type="text"
+                name="emailOrPhone"
+                value={formData.emailOrPhone}
+                onChange={handleChange}
                 placeholder="Email"
                 required
                 className="pl-12 py-3"
@@ -61,6 +141,9 @@ const Page = () => {
             <div className="relative">
               <Input
                 type="password"
+                name="password"
+                value={formData.password}
+                onChange={handleChange}
                 placeholder="Password"
                 required
                 className="pl-12 py-3"
@@ -73,6 +156,9 @@ const Page = () => {
             <div className="relative">
               <Input
                 type="password"
+                name="confirmPassword"
+                value={formData.confirmPassword}
+                onChange={handleChange}
                 placeholder="Confirm Password"
                 required
                 className="pl-12 py-3"
@@ -82,12 +168,20 @@ const Page = () => {
               </span>
             </div>
             {/* Submit Button */}
+
             <Button
               type="submit"
-              className="w-full bg-blue-600 text-white font-bold py-3 rounded-lg hover:bg-blue-700 hover:shadow-lg transition-all duration-300"
-              disabled
+              className="w-full bg-green-600 text-white py-3 rounded-lg hover:bg-green-700 transition"
+              disabled={isLoading}
             >
-              Sign Up (Coming Soon)
+              {isLoading ? (
+                <>
+                  <Loader className="animate-spin mr-2" />
+                  Signing Up...
+                </>
+              ) : (
+                "Sign Up"
+              )}
             </Button>
           </form>
           {/* Footer */}
