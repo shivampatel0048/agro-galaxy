@@ -9,10 +9,12 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { setToken } from "@/utils/tokenUtils";  // Utility to store the token
 import { login } from "@/redux/apis/authAPI";
+import { Loader } from "lucide-react";
 
 const Page = () => {
   const { toast } = useToast();
   const router = useRouter();
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   // State to store form data
   const [formData, setFormData] = useState({
@@ -31,7 +33,7 @@ const Page = () => {
   // Handle form submission
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
+    setIsLoading(true);
     const { email, password } = formData;
 
     try {
@@ -56,6 +58,8 @@ const Page = () => {
         description: error.response?.data?.error || "Something went wrong. Please try again.",
         variant: "destructive",
       });
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -123,11 +127,11 @@ const Page = () => {
                 🔒
               </span>
             </div>
-            <div className="flex items-center justify-between text-sm text-gray-500">
-              <label className="flex items-center space-x-2">
+            <div className="flex items-center justify-end text-sm text-gray-500">
+              {/* <label className="flex items-center space-x-2">
                 <input type="checkbox" className="form-checkbox" />
                 <span>Remember me</span>
-              </label>
+              </label> */}
               <Link
                 href="/forgot-password"
                 className="text-green-600 hover:underline"
@@ -135,11 +139,20 @@ const Page = () => {
                 Forgot password
               </Link>
             </div>
+
             <Button
               type="submit"
               className="w-full bg-green-600 text-white py-3 rounded-lg hover:bg-green-700 transition"
+              disabled={isLoading}
             >
-              Sign In
+              {isLoading ? (
+                <>
+                  <Loader className="animate-spin mr-2" />
+                  Signing In...
+                </>
+              ) : (
+                "Sign In"
+              )}
             </Button>
             {/* Social Buttons */}
             <div className="text-center text-gray-500 mt-4">or</div>
