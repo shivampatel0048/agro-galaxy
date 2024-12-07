@@ -1,5 +1,6 @@
 "use client";
 
+import Navbar from "@/components/shared/Navbar";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Section } from "@/components/ui/Section";
@@ -46,6 +47,9 @@ const CheckoutPage = () => {
   };
 
   return (
+ <>
+    <Navbar/>
+   
     <main className="min-h-screen bg-gradient-to-br from-green-100 via-yellow-50 to-green-100 flex items-center justify-center px-4">
       <Section
         className="w-full max-w-[1500px] bg-white shadow-xl rounded-3xl p-10 flex flex-col space-y-8 lg:flex-row lg:space-y-0 lg:space-x-12"
@@ -205,6 +209,7 @@ const CheckoutPage = () => {
         </div>
       </Section>
     </main>
+    </>
   );
 };
 
