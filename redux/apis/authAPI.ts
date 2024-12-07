@@ -12,7 +12,6 @@ export interface SignupResponse {
   };
 }
 
-
 export const signup = async (
   data: {
     name: string;
@@ -24,7 +23,6 @@ export const signup = async (
   const response = await API.post("/api/auth/signup", data);
   return response.data;
 };
-
 
 export const login = async (
   query: { email?: string; phone?: string },

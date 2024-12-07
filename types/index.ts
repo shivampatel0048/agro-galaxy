@@ -20,7 +20,20 @@ export interface Product {
     images: string[];
     deleted: boolean;
     __v?: number;
+    averageRating?: number;
+    reviews?: string[] | Review[];
 }
+
+export interface Review {
+    _id: string;
+    productId: string;
+    rating: number;
+    userId: string;
+    review: string;
+    createdAt: string;
+    __v?: number;
+}
+
 
 export interface Address {
     street: string;
@@ -28,9 +41,9 @@ export interface Address {
     state: string;
     pincode: string;
     landmark?: string;
-  }
-  
-  export interface User {
+}
+
+export interface User {
     _id?: string;
     name: string;
     email?: string;
@@ -42,5 +55,22 @@ export interface Address {
     addresses?: Address[];
     createdAt?: Date;
     updatedAt?: Date;
-  }
-  
+}
+
+export interface CartItem {
+    productId: string;
+    quantity: number;
+    price: number;
+    totalPrice: number;
+}
+
+export interface Cart {
+    _id: string;
+    userId: string;
+    items: CartItem[];
+    totalPrice: number;
+    createdAt: string;
+    updatedAt: string;
+    __v: number;
+}
+
