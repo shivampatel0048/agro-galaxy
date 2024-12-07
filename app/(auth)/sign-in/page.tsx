@@ -4,17 +4,59 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Section } from "@/components/ui/Section";
 import { useToast } from "@/hooks/use-toast";
+import { useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { setToken } from "@/utils/tokenUtils";  // Utility to store the token
+import { login } from "@/redux/apis/authAPI";
 
 const Page = () => {
   const { toast } = useToast();
+  const router = useRouter();
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    toast({
-      title: "Coming Soon",
-      description: "Login functionality will be available soon!",
+  // State to store form data
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+  });
+
+  // Handle input change
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
     });
+  };
+
+  // Handle form submission
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    const { email, password } = formData;
+
+    try {
+      const response = await login(email, password);
+
+      const { token } = response;
+
+      // Store token in localStorage and sessionStorage
+      setToken(token);
+
+      toast({
+        title: "Success",
+        description: "Logged in successfully! Redirecting to home...",
+      });
+
+      router.push("/");
+
+    } catch (error: any) {
+      console.error("Login Error:", error);
+      toast({
+        title: "Error",
+        description: error.response?.data?.error || "Something went wrong. Please try again.",
+        variant: "destructive",
+      });
+    }
   };
 
   return (
@@ -55,9 +97,12 @@ const Page = () => {
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="relative">
               <Input
-                type="text"
+                type="email"
+                name="email"
                 placeholder="Username or email"
                 required
+                value={formData.email}
+                onChange={handleChange}
                 className="pl-12"
               />
               <span className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400">
@@ -67,8 +112,11 @@ const Page = () => {
             <div className="relative">
               <Input
                 type="password"
+                name="password"
                 placeholder="Password"
                 required
+                value={formData.password}
+                onChange={handleChange}
                 className="pl-12"
               />
               <span className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400">
@@ -96,31 +144,9 @@ const Page = () => {
             {/* Social Buttons */}
             <div className="text-center text-gray-500 mt-4">or</div>
             <div className="grid grid-cols-2 gap-4">
-              {/* <button
-                type="button"
-                className="flex items-center justify-center bg-red-500 text-white py-2 rounded-lg hover:bg-red-600 transition"
-              >
-                <img
-                  src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg"
-                  alt="Google Icon"
-                  className="w-6 h-6 mr-2"
-                />
-                Google
-              </button> */}
-              {/* <button
-                type="button"
-                className="flex items-center justify-center bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition"
-              >
-                <img
-                  src="https://upload.wikimedia.org/wikipedia/commons/5/51/Facebook_f_logo_%282019%29.svg"
-                  alt="Facebook Icon"
-                  className="w-6 h-6 mr-2"
-                />
-                Facebook
-              </button> */}
             </div>
           </form>
-          <p className="text-center text-gray-600  text-sm">
+          <p className="text-center text-gray-600 text-sm">
             Why Create an Account?{" "}
             <span className="text-green-600 hover:underline cursor-pointer">
               Learn more

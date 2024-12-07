@@ -1,14 +1,10 @@
 // tokenUtils.ts
-export const setToken = (token: string, rememberMe: boolean): void => {
+export const setToken = (token: string): void => {
   if (typeof window === "undefined") return;
-  const expiresAt = rememberMe ? Date.now() + 7 * 24 * 60 * 60 * 1000 : null; // 1 week in milliseconds
-  const tokenData = { token, expiresAt };
+  const tokenData = { token };
 
-  if (rememberMe) {
-    localStorage.setItem("token", JSON.stringify(tokenData));
-  } else {
-    sessionStorage.setItem("token", token);
-  }
+  localStorage.setItem("token", JSON.stringify(tokenData));
+  sessionStorage.setItem("token", token);
 };
 
 // tokenUtils.ts

@@ -21,3 +21,26 @@ export interface Product {
     deleted: boolean;
     __v?: number;
 }
+
+export interface Address {
+    street: string;
+    city: string;
+    state: string;
+    pincode: string;
+    landmark?: string;
+  }
+  
+  export interface User {
+    _id?: string;
+    name: string;
+    email: string;
+    password: string;
+    role?: "user" | "vendor" | "admin";
+    resetPasswordToken?: string;
+    resetPasswordExpires?: Date;
+    phone?: string;
+    addresses?: Address[];
+    createdAt?: Date;
+    updatedAt?: Date;
+  }
+  

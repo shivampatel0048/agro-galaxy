@@ -4,15 +4,19 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Section } from "@/components/ui/Section";
 import { useToast } from "@/hooks/use-toast";
+import { signup } from "@/redux/apis/authAPI";
+import { setToken } from "@/utils/tokenUtils";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 const Page = () => {
   const { toast } = useToast();
+  const router = useRouter();
 
   // State to hold form data
   const [formData, setFormData] = useState({
-    fullName: '',
+    name: '',
     email: '',
     password: '',
     confirmPassword: '',
@@ -27,30 +31,41 @@ const Page = () => {
     }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
-    // Extract values from form data
-    const { password, confirmPassword } = formData;
 
-    // Validate password and confirm password
+    const { name, email, password, confirmPassword } = formData;
+
     if (password !== confirmPassword) {
       toast({
         title: "Error",
         description: "Passwords do not match. Please try again.",
-        variant: "destructive", // You can use 'destructive' for error messages
+        variant: "destructive",
       });
       return;
     }
 
-    // If passwords match, log form data (You can replace this with API call)
-    console.log("Form Data:", formData);
+    try {
+      const response = await signup({ name, email, password });
+      const { token } = response;
 
-    // For now, show the "Coming Soon" toast
-    toast({
-      title: "Coming Soon",
-      description: "Sign up functionality will be available soon!",
-    });
+      setToken(token);
+
+      toast({
+        title: "Success",
+        description: "Account created successfully! Redirecting to home...",
+      });
+
+      router.push("/");
+
+    } catch (error: any) {
+      console.error("Signup Error:", error);
+      toast({
+        title: "Error",
+        description: error.response?.data?.error || "Something went wrong. Please try again.",
+        variant: "destructive",
+      });
+    }
   };
 
   return (
@@ -73,8 +88,8 @@ const Page = () => {
             <div className="relative">
               <Input
                 type="text"
-                name="fullName"
-                value={formData.fullName}
+                name="name"
+                value={formData.name}
                 onChange={handleChange}
                 placeholder="Full Name"
                 required

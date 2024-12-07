@@ -20,7 +20,6 @@ const initialState: ProductState = {
 // Fix here: the payload of fetchProducts must be typed as Product[]
 export const fetchProducts = createAsyncThunk<Product[]>("products/fetchProducts", async () => {
     const response = await getProducts(); 
-    console.log({response})
     return response.products; 
 });
 
