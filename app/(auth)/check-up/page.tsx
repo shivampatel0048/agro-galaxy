@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Section } from "@/components/ui/Section";
 import { useToast } from "@/hooks/use-toast";
+import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 import { FiMinus, FiPlus } from "react-icons/fi";
@@ -59,10 +60,12 @@ const CheckoutPage = () => {
               className="flex items-center justify-between bg-gray-50 p-6 rounded-lg shadow-sm"
             >
               <div className="flex items-center space-x-6">
-                <img
+                <Image
                   src={`/path/to/product${item.id}.jpg`}
                   alt={item.name}
                   className="w-24 h-24 object-cover rounded-md border border-gray-200 shadow-sm"
+                  width={96}
+                  height={96}
                 />
                 <div>
                   <h3 className="text-lg font-semibold text-gray-800">{item.name}</h3>

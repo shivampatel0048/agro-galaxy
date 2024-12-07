@@ -92,10 +92,10 @@ export const SubscriptionSection = () => {
                 Select Updates
               </label>
               <Select
-                id="updates"
+                // id="updates"
                 value={updates}
                 onValueChange={setUpdates}
-                className="p-3 rounded-md border-gray-300 focus:ring-2 focus:ring-primary"
+                // className="p-3 rounded-md border-gray-300 focus:ring-2 focus:ring-primary"
               >
                 <option value="all">All Updates</option>
                 <option value="products">Product Updates</option>
