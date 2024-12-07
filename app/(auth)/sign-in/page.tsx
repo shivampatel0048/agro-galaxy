@@ -18,7 +18,7 @@ const Page = () => {
 
   // State to store form data
   const [formData, setFormData] = useState({
-    email: "",
+    emailOrPhone: "",
     password: "",
   });
 
@@ -34,14 +34,32 @@ const Page = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
-    const { email, password } = formData;
+    const { emailOrPhone, password } = formData;
+
+    const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+    const phoneRegex = /^[0-9]{10}$/;
+
+    let query: Record<string, string> = {};
+
+    if (emailRegex.test(emailOrPhone)) {
+      query = { email: emailOrPhone };
+    } else if (phoneRegex.test(emailOrPhone)) {
+      query = { phone: emailOrPhone };
+    } else {
+      toast({
+        title: "Error",
+        description: "Please provide a valid email or phone number.",
+        variant: "destructive",
+      });
+      setIsLoading(false);
+      return;
+    }
 
     try {
-      const response = await login(email, password);
+      const response = await login(query, password);
 
       const { token } = response;
 
-      // Store token in localStorage and sessionStorage
       setToken(token);
 
       toast({
@@ -101,11 +119,11 @@ const Page = () => {
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="relative">
               <Input
-                type="email"
-                name="email"
-                placeholder="Username or email"
+                type="text"
+                name="emailOrPhone"
+                placeholder="phone or email"
                 required
-                value={formData.email}
+                value={formData.emailOrPhone}
                 onChange={handleChange}
                 className="pl-12"
               />

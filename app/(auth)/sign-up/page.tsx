@@ -19,7 +19,7 @@ const Page = () => {
   // State to hold form data
   const [formData, setFormData] = useState({
     name: '',
-    email: '',
+    emailOrPhone: '',
     password: '',
     confirmPassword: '',
   });
@@ -36,7 +36,7 @@ const Page = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    const { name, email, password, confirmPassword } = formData;
+    const { name, emailOrPhone, password, confirmPassword } = formData;
 
     if (password !== confirmPassword) {
       toast({
@@ -46,10 +46,28 @@ const Page = () => {
       });
       return;
     }
+
+    // Regex for email and phone validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const phoneRegex = /^[0-9]{10}$/;
+
+    if (!emailOrPhone || (!emailRegex.test(emailOrPhone) && !phoneRegex.test(emailOrPhone))) {
+      toast({
+        title: "Error",
+        description: "Please provide a valid email or phone number.",
+        variant: "destructive",
+      });
+      return;
+    }
+
     setIsLoading(true);
 
     try {
-      const response = await signup({ name, email, password });
+      const query = emailRegex.test(emailOrPhone)
+        ? { email: emailOrPhone }
+        : { phone: emailOrPhone };
+
+      const response = await signup({ name, ...query, password });
       const { token } = response;
 
       setToken(token);
@@ -69,7 +87,7 @@ const Page = () => {
         variant: "destructive",
       });
     } finally {
-      setIsLoading(true);
+      setIsLoading(false);
     }
   };
 
@@ -107,9 +125,9 @@ const Page = () => {
             {/* Email */}
             <div className="relative">
               <Input
-                type="email"
-                name="email"
-                value={formData.email}
+                type="text"
+                name="emailOrPhone"
+                value={formData.emailOrPhone}
                 onChange={handleChange}
                 placeholder="Email"
                 required

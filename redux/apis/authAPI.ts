@@ -5,27 +5,33 @@ export interface SignupResponse {
   token: string;
   user: {
     id: string;
-    email: string;
+    email?: string;
+    phone?: string;
     name: string;
     role: string;
   };
 }
 
 
-// Sign Up
-export const signup = async (data: { name: string; email: string; password: string }): Promise<SignupResponse> => {
+export const signup = async (
+  data: {
+    name: string;
+    email?: string;
+    phone?: string;
+    password: string
+  }
+): Promise<SignupResponse> => {
   const response = await API.post("/api/auth/signup", data);
   return response.data;
 };
 
 
-// Login
 export const login = async (
-  email: string,
+  query: { email?: string; phone?: string },
   password: string
 ): Promise<{ token: string; user: User }> => {
   try {
-    const response = await API.post("/api/auth/login", { email, password });
+    const response = await API.post("/api/auth/login", { ...query, password });
     return { token: response.data.token, user: response.data.user };
   } catch (error) {
     console.error("Error during login:", error);

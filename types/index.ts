@@ -33,12 +33,12 @@ export interface Address {
   export interface User {
     _id?: string;
     name: string;
-    email: string;
+    email?: string;
+    phone?: string;
     password: string;
     role?: "user" | "vendor" | "admin";
     resetPasswordToken?: string;
     resetPasswordExpires?: Date;
-    phone?: string;
     addresses?: Address[];
     createdAt?: Date;
     updatedAt?: Date;
