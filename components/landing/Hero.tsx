@@ -40,7 +40,7 @@ export const Hero = () => {
   };
 
   return (
-    <section className="relative h-screen min-h-[600px] w-full overflow-hidden">
+    <section className="relative h-[calc(100vh-4rem)] min-h-[600px] w-full overflow-hidden">
       <div className="absolute inset-0 bg-black/40 z-10" />
       <div className="relative h-full w-full">
         {/* Carousel */}
@@ -65,7 +65,7 @@ export const Hero = () => {
               />
               {/* Text Overlay */}
               <div className="absolute inset-0 flex items-center justify-center z-20 px-4">
-                <h2 className="text-white text-3xl md:text-5xl font-bold text-center px-4  max-w-2xl leading-relaxed">
+                <h2 className="text-white text-5xl md:text-5xl font-bold text-center px-4  max-w-2xl leading-relaxed lg:leading-loose">
                   {imageTexts[index]}
                 </h2>
               </div>

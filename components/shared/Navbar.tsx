@@ -2,11 +2,11 @@
 
 import { useState, useEffect } from "react";
 import { Menu, X, ShoppingCart } from "lucide-react";
-// import { Menu, X, ShoppingCart, Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useAnimate, stagger } from "framer-motion";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import LanguageSelection from "./LanguageSelection";
 
 const navLinks = [
   { label: "Products", href: "/products" },
@@ -82,17 +82,15 @@ const Navbar = () => {
                   <Link
                     key={link.href}
                     href={link.href}
-                    className={`relative py-2 group ${
-                      isActive ? "text-blue-500" : "text-gray-700"
-                    }`}
+                    className={`relative py-2 group ${isActive ? "text-blue-500" : "text-gray-700"
+                      }`}
                   >
                     {link.label}
                     <span
-                      className={`absolute bottom-0 left-0 w-full h-0.5 bg-blue-500 transform origin-left transition-transform duration-300 ease-out ${
-                        isActive
-                          ? "scale-x-100"
-                          : "scale-x-0 group-hover:scale-x-100"
-                      }`}
+                      className={`absolute bottom-0 left-0 w-full h-0.5 bg-blue-500 transform origin-left transition-transform duration-300 ease-out ${isActive
+                        ? "scale-x-100"
+                        : "scale-x-0 group-hover:scale-x-100"
+                        }`}
                     />
                   </Link>
                 );
@@ -107,6 +105,8 @@ const Navbar = () => {
                   </button>
                 </Link>
 
+                <LanguageSelection />
+
                 <Link href="/sign-in">
                   <Button
                     variant="outline"
@@ -119,7 +119,7 @@ const Navbar = () => {
             </div>
 
             {/* Mobile menu button */}
-            <div className="md:hidden">
+            <div className="md:hidden flex items-center gap-x-4">
               <button
                 onClick={toggleMenu}
                 className="relative z-50 p-2 rounded-md text-gray-700 hover:bg-gray-100 focus:outline-none transition-all duration-300"
@@ -130,6 +130,8 @@ const Navbar = () => {
                   <Menu className="h-6 w-6 animate-fade-in" />
                 )}
               </button>
+
+              <LanguageSelection />
             </div>
           </div>
         </div>
@@ -137,11 +139,10 @@ const Navbar = () => {
         {/* Mobile menu */}
         <div
           ref={scope}
-          className={`mobile-menu md:hidden fixed inset-0 bg-white/95 backdrop-blur-sm z-40 ${
-            isMenuOpen
-              ? "opacity-100 w-full min-h-screen"
-              : "opacity-0 pointer-events-none"
-          }`}
+          className={`mobile-menu md:hidden fixed inset-0 bg-white/95 backdrop-blur-sm z-40 ${isMenuOpen
+            ? "opacity-100 w-full min-h-screen"
+            : "opacity-0 pointer-events-none"
+            }`}
         >
           <div className="h-full flex flex-col pt-20 px-4">
             {/* Mobile Navigation Links */}

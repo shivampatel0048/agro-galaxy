@@ -5,12 +5,48 @@ import { Input } from "@/components/ui/input";
 import { Section } from "@/components/ui/Section";
 import { useToast } from "@/hooks/use-toast";
 import Link from "next/link";
+import { useState } from "react";
 
 const Page = () => {
   const { toast } = useToast();
 
+  // State to hold form data
+  const [formData, setFormData] = useState({
+    fullName: '',
+    email: '',
+    password: '',
+    confirmPassword: '',
+  });
+
+  // Update form data
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormData((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    
+    // Extract values from form data
+    const { password, confirmPassword } = formData;
+
+    // Validate password and confirm password
+    if (password !== confirmPassword) {
+      toast({
+        title: "Error",
+        description: "Passwords do not match. Please try again.",
+        variant: "destructive", // You can use 'destructive' for error messages
+      });
+      return;
+    }
+
+    // If passwords match, log form data (You can replace this with API call)
+    console.log("Form Data:", formData);
+
+    // For now, show the "Coming Soon" toast
     toast({
       title: "Coming Soon",
       description: "Sign up functionality will be available soon!",
@@ -37,6 +73,9 @@ const Page = () => {
             <div className="relative">
               <Input
                 type="text"
+                name="fullName"
+                value={formData.fullName}
+                onChange={handleChange}
                 placeholder="Full Name"
                 required
                 className="pl-12 py-3"
@@ -49,6 +88,9 @@ const Page = () => {
             <div className="relative">
               <Input
                 type="email"
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
                 placeholder="Email"
                 required
                 className="pl-12 py-3"
@@ -61,6 +103,9 @@ const Page = () => {
             <div className="relative">
               <Input
                 type="password"
+                name="password"
+                value={formData.password}
+                onChange={handleChange}
                 placeholder="Password"
                 required
                 className="pl-12 py-3"
@@ -73,6 +118,9 @@ const Page = () => {
             <div className="relative">
               <Input
                 type="password"
+                name="confirmPassword"
+                value={formData.confirmPassword}
+                onChange={handleChange}
                 placeholder="Confirm Password"
                 required
                 className="pl-12 py-3"
@@ -85,7 +133,6 @@ const Page = () => {
             <Button
               type="submit"
               className="w-full bg-blue-600 text-white font-bold py-3 rounded-lg hover:bg-blue-700 hover:shadow-lg transition-all duration-300"
-              disabled
             >
               Sign Up (Coming Soon)
             </Button>
