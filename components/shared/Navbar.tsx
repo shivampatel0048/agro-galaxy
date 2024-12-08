@@ -20,7 +20,7 @@ const navLinks = [
 const Navbar = () => {
   const token = getToken();
   const pathname = usePathname();
-  const router = useRouter()
+  const router = useRouter();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scope, animate] = useAnimate();
 
@@ -91,21 +91,23 @@ const Navbar = () => {
                   <Link
                     key={link.href}
                     href={link.href}
-                    className={`relative py-2 group ${isActive ? "text-blue-500" : "text-gray-700"
-                      }`}
+                    className={`relative py-2 group ${
+                      isActive ? "text-blue-500" : "text-gray-700"
+                    }`}
                   >
                     {link.label}
                     <span
-                      className={`absolute bottom-0 left-0 w-full h-0.5 bg-blue-500 transform origin-left transition-transform duration-300 ease-out ${isActive
-                        ? "scale-x-100"
-                        : "scale-x-0 group-hover:scale-x-100"
-                        }`}
+                      className={`absolute bottom-0 left-0 w-full h-0.5 bg-blue-500 transform origin-left transition-transform duration-300 ease-out ${
+                        isActive
+                          ? "scale-x-100"
+                          : "scale-x-0 group-hover:scale-x-100"
+                      }`}
                     />
                   </Link>
                 );
               })}
               <div className="flex items-center gap-x-8">
-                <Link href="/check-up">
+                <Link href="/check">
                   <button className="relative">
                     <ShoppingCart className="h-6 w-6 text-gray-700 hover:text-blue-500 transition-colors duration-200" />
                     <span className="absolute -top-2 -right-2 bg-blue-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
@@ -159,10 +161,11 @@ const Navbar = () => {
         {/* Mobile menu */}
         <div
           ref={scope}
-          className={`mobile-menu md:hidden fixed inset-0 bg-white/95 backdrop-blur-sm z-40 ${isMenuOpen
-            ? "opacity-100 w-full min-h-screen"
-            : "opacity-0 pointer-events-none"
-            }`}
+          className={`mobile-menu md:hidden fixed inset-0 bg-white/95 backdrop-blur-sm z-40 ${
+            isMenuOpen
+              ? "opacity-100 w-full min-h-screen"
+              : "opacity-0 pointer-events-none"
+          }`}
         >
           <div className="h-full flex flex-col pt-20 px-4">
             {/* Mobile Navigation Links */}

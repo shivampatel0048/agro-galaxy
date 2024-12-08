@@ -7,7 +7,7 @@ import { useToast } from "@/hooks/use-toast";
 import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { setToken } from "@/utils/tokenUtils";  // Utility to store the token
+import { setToken } from "@/utils/tokenUtils"; // Utility to store the token
 import { login } from "@/redux/apis/authAPI";
 import { Loader } from "lucide-react";
 
@@ -68,12 +68,13 @@ const Page = () => {
       });
 
       router.push("/");
-
     } catch (error: any) {
       console.error("Login Error:", error);
       toast({
         title: "Error",
-        description: error.response?.data?.error || "Something went wrong. Please try again.",
+        description:
+          error.response?.data?.error ||
+          "Something went wrong. Please try again.",
         variant: "destructive",
       });
     } finally {
@@ -146,14 +147,7 @@ const Page = () => {
               </span>
             </div>
             <div className="flex items-center justify-end text-sm text-gray-500">
-              {/* <label className="flex items-center space-x-2">
-                <input type="checkbox" className="form-checkbox" />
-                <span>Remember me</span>
-              </label> */}
-              <Link
-                href="/forgot-password"
-                className="text-green-600 hover:underline"
-              >
+              <Link href="/forgot" className="text-green-600 hover:underline">
                 Forgot password
               </Link>
             </div>
@@ -174,8 +168,7 @@ const Page = () => {
             </Button>
             {/* Social Buttons */}
             <div className="text-center text-gray-500 mt-4">or</div>
-            <div className="grid grid-cols-2 gap-4">
-            </div>
+            <div className="grid grid-cols-2 gap-4"></div>
           </form>
           <p className="text-center text-gray-600 text-sm">
             Why Create an Account?{" "}
