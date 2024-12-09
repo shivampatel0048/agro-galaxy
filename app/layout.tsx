@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
-import { LanguageProvider } from "@/context/LanguageProvider";
-import StoreProvider from "@/context/StoreProvider";
+import { LanguageProvider } from "@/constants/context/LanguageProvider";
+import StoreProvider from "@/constants/context/StoreProvider";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -32,9 +32,7 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased m-0 p-0 scroll-smooth box-border`}
       >
         <LanguageProvider>
-          <StoreProvider>
-            {children}
-          </StoreProvider>
+          <StoreProvider>{children}</StoreProvider>
         </LanguageProvider>
         <Toaster />
       </body>

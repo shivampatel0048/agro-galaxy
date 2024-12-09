@@ -1,7 +1,7 @@
 "use client";
 
 import { Section } from "@/components/ui/Section";
-import { useLanguage } from "@/context/LanguageProvider";
+import { useLanguage } from "@/constants/context/LanguageProvider";
 import Image from "next/image";
 
 const products = [
