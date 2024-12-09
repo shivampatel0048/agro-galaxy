@@ -8,6 +8,8 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import LanguageSelection from "./LanguageSelection";
 import { getToken, removeToken } from "@/utils/tokenUtils";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { fetchCart } from "@/redux/features/cartSlice";
 
 const navLinks = [
   { label: "Products", href: "/products" },
@@ -23,6 +25,15 @@ const Navbar = () => {
   const router = useRouter();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scope, animate] = useAnimate();
+
+  const dispatch = useAppDispatch();
+  const cart = useAppSelector((state) => state.cart.cart);
+
+  useEffect(() => {
+    if (!cart) {
+      dispatch(fetchCart());
+    }
+  }, [dispatch, cart])
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -107,11 +118,11 @@ const Navbar = () => {
                 );
               })}
               <div className="flex items-center gap-x-8">
-                <Link href="/check">
+                <Link href="/cart">
                   <button className="relative">
                     <ShoppingCart className="h-6 w-6 text-gray-700 hover:text-blue-500 transition-colors duration-200" />
                     <span className="absolute -top-2 -right-2 bg-blue-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
-                      0
+                      {(cart?.items ?? []).length > 0 ? cart?.items.length : 0}
                     </span>
                   </button>
                 </Link>

@@ -1,18 +1,10 @@
-'use client';
-
+"use client";
 import { Section } from "@/components/ui/Section";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import {
-  Tabs,
-  TabsContent,
-  TabsList,
-  TabsTrigger,
-} from "@/components/ui/tabs";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Star } from "lucide-react";
 import Image from "next/image";
-
-// Mock product data for static display
 const product = {
   name: "Smart Irrigation System",
   description:
@@ -88,7 +80,7 @@ const product = {
   ],
 };
 
-const ProductDetails = () => {
+const page = () => {
   const averageRating =
     product.reviews.reduce((acc, review) => acc + review.rating, 0) /
     product.reviews.length;
@@ -138,10 +130,7 @@ const ProductDetails = () => {
               </h2>
               <ul className="mt-4 space-y-3">
                 {product.features.map((feature) => (
-                  <li
-                    key={feature}
-                    className="flex items-center text-gray-700"
-                  >
+                  <li key={feature} className="flex items-center text-gray-700">
                     <span className="mr-2">•</span>
                     {feature}
                   </li>
@@ -149,7 +138,7 @@ const ProductDetails = () => {
               </ul>
             </div>
             <Button className="mt-10 bg-blue-700 text-white hover:bg-blue-800 transition-all">
-              Coming Soon
+             Buy Now
             </Button>
           </div>
         </div>
@@ -158,9 +147,7 @@ const ProductDetails = () => {
         <div className="mt-16">
           <Tabs defaultValue="specifications" className="w-full">
             <TabsList className="grid w-full grid-cols-3 bg-blue-50">
-              <TabsTrigger value="specifications">
-                Specifications
-              </TabsTrigger>
+              <TabsTrigger value="specifications">Specifications</TabsTrigger>
               <TabsTrigger value="instructions">How to Use</TabsTrigger>
               <TabsTrigger value="reviews">Reviews</TabsTrigger>
             </TabsList>
@@ -187,9 +174,7 @@ const ProductDetails = () => {
                     <ol className="space-y-3">
                       {section.steps.map((step, index) => (
                         <li key={index} className="flex gap-3 text-gray-600">
-                          <span className="font-semibold">
-                            {index + 1}.
-                          </span>
+                          <span className="font-semibold">{index + 1}.</span>
                           {step}
                         </li>
                       ))}
@@ -237,4 +222,4 @@ const ProductDetails = () => {
   );
 };
 
-export default ProductDetails;
+export default page;

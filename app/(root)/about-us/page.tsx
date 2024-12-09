@@ -1,7 +1,7 @@
 "use client";
 import { Section } from "@/components/ui/Section";
 import Image from "next/image";
-import { useLanguage } from "@/context/LanguageProvider";
+import { useLanguage } from "@/constants/context/LanguageProvider";
 
 const Page = () => {
   const { language } = useLanguage();
