@@ -13,7 +13,7 @@ export const getCart = async (): Promise<{ cart: Cart }> => {
 };
 
 // Add an item to the cart
-export const addItemToCart = async (itemData: CartItem): Promise<{ cartItem: CartItem }> => {
+export const addItemToCart = async (itemData: {productId:string, quantity:number}): Promise<{ cartItem: {productId:string, quantity:number} }> => {
   try {
     const response = await API.post("/api/cart", itemData);
     return { cartItem: response.data }; // Ensure the response contains the cartItem

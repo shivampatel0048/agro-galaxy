@@ -90,6 +90,7 @@ const ProductsSection = () => {
             {products.slice(0, 4).map((product) => (
               <ProductCard
                 key={product._id}
+                id={product._id}
                 title={product.title}
                 description={product.description}
                 category={product.category}
@@ -100,8 +101,6 @@ const ProductsSection = () => {
                 thumbnail={product.thumbnail}
                 averageRating={Number(`${product.averageRating}`)}
                 language={language}
-                onAddToCart={() => handleAddToCart(product.title[language])}
-                onBuy={() => handleBuyNow(product.title[language])}
               />
             ))}
           </div>

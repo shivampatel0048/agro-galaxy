@@ -18,11 +18,6 @@ const Page = () => {
     status: productStatus,
     error: productError,
   } = useAppSelector((state: RootState) => state.products);
-  const {
-    cart,
-    status: cartStatus,
-    error: cartError,
-  } = useAppSelector((state: RootState) => state.cart);
 
   const texts = {
     en: {
@@ -54,18 +49,10 @@ const Page = () => {
   const currentTexts = texts[language] || texts.en;
 
   useEffect(() => {
-    if (productStatus === "idle") dispatch(fetchProducts());
-    if (cartStatus === "idle") dispatch(fetchCart());
-  }, [dispatch, productStatus, cartStatus]);
-
-  const handleAddToCart = (productName: string) => {
-    console.log(`${productName} added to cart.`);
-  };
-
-  const handleBuyNow = (productName: string) => {
-    console.log(`Purchased: ${productName}`);
-  };
-
+    if (productStatus === "idle" && !products?.length) {
+      dispatch(fetchProducts());
+    }
+  }, [dispatch, productStatus, products]);
   return (
     <Section id="products" className="bg-background py-16">
       <h2 className="text-center text-4xl font-bold text-text-primary md:text-5xl">
@@ -90,6 +77,7 @@ const Page = () => {
             {products.map((product) => (
               <ProductCard
                 key={product._id}
+                id={product._id}
                 title={product.title}
                 description={product.description}
                 category={product.category}
@@ -100,8 +88,6 @@ const Page = () => {
                 thumbnail={product.thumbnail}
                 averageRating={Number(`${product.averageRating}`)}
                 language={language}
-                onAddToCart={() => handleAddToCart(product.title[language])}
-                onBuy={() => handleBuyNow(product.title[language])}
               />
             ))}
           </div>

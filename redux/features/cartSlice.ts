@@ -20,7 +20,7 @@ export const fetchCart = createAsyncThunk("cart/fetchCart", async () => {
   return response.cart; // response.cart should now be an object with items and other properties
 });
 
-export const addToCart = createAsyncThunk("cart/addToCart", async (itemData: CartItem) => {
+export const addToCart = createAsyncThunk("cart/addToCart", async (itemData: {productId:string, quantity:number}) => {
   const response = await addItemToCart(itemData);
   return response.cartItem;
 });
@@ -60,11 +60,8 @@ const cartSlice = createSlice({
       .addCase(addToCart.pending, (state) => {
         state.status = "loading";
       })
-      .addCase(addToCart.fulfilled, (state, action: PayloadAction<CartItem>) => {
+      .addCase(addToCart.fulfilled, (state, action: PayloadAction<{productId:string, quantity:number}>) => {
         state.status = "succeeded";
-        if (state.cart) {
-          state.cart.items.push(action.payload); // Add the new item to the cart
-        }
       })
       .addCase(addToCart.rejected, (state, action) => {
         state.status = "failed";
