@@ -4,11 +4,10 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Section } from "@/components/ui/Section";
 import { Textarea } from "@/components/ui/textarea";
-import { useToast } from "@/hooks/use-toast";
 import { useLanguage } from "@/constants/context/LanguageProvider";
+import { toast } from "sonner";
 
 const Page = () => {
-  const { toast } = useToast();
   const { language } = useLanguage();
 
   const texts = {
@@ -61,8 +60,7 @@ const Page = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    toast({
-      title: currentTexts.toastMessage,
+    toast.success(currentTexts.toastMessage, {
       description: currentTexts.toastDescription,
     });
   };

@@ -3,16 +3,15 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Section } from "@/components/ui/Section";
-import { useToast } from "@/hooks/use-toast";
 import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { setToken } from "@/utils/tokenUtils"; // Utility to store the token
 import { login } from "@/redux/apis/authAPI";
 import { Loader } from "lucide-react";
+import { toast } from "sonner";
 
 const Page = () => {
-  const { toast } = useToast();
   const router = useRouter();
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
@@ -46,11 +45,7 @@ const Page = () => {
     } else if (phoneRegex.test(emailOrPhone)) {
       query = { phone: emailOrPhone };
     } else {
-      toast({
-        title: "Error",
-        description: "Please provide a valid email or phone number.",
-        variant: "destructive",
-      });
+      toast.error('Please provide a valid email or phone number.');
       setIsLoading(false);
       return;
     }
@@ -62,21 +57,13 @@ const Page = () => {
 
       setToken(token);
 
-      toast({
-        title: "Success",
-        description: "Logged in successfully! Redirecting to home...",
-      });
+      toast.success('Logged in successfully! Redirecting to home...');
 
       router.push("/");
     } catch (error: any) {
       console.error("Login Error:", error);
-      toast({
-        title: "Error",
-        description:
-          error.response?.data?.error ||
-          "Something went wrong. Please try again.",
-        variant: "destructive",
-      });
+      toast.error(error.response?.data?.error ||
+        "Something went wrong. Please try again.");
     } finally {
       setIsLoading(false);
     }

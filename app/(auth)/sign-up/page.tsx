@@ -3,16 +3,15 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Section } from "@/components/ui/Section";
-import { useToast } from "@/hooks/use-toast";
 import { signup } from "@/redux/apis/authAPI";
 import { setToken } from "@/utils/tokenUtils";
 import { Loader } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { toast } from "sonner";
 
 const Page = () => {
-  const { toast } = useToast();
   const router = useRouter();
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
@@ -39,11 +38,7 @@ const Page = () => {
     const { name, emailOrPhone, password, confirmPassword } = formData;
 
     if (password !== confirmPassword) {
-      toast({
-        title: "Error",
-        description: "Passwords do not match. Please try again.",
-        variant: "destructive",
-      });
+      toast.error('Passwords do not match. Please try again.');
       return;
     }
 
@@ -52,11 +47,7 @@ const Page = () => {
     const phoneRegex = /^[0-9]{10}$/;
 
     if (!emailOrPhone || (!emailRegex.test(emailOrPhone) && !phoneRegex.test(emailOrPhone))) {
-      toast({
-        title: "Error",
-        description: "Please provide a valid email or phone number.",
-        variant: "destructive",
-      });
+      toast.error('Please provide a valid email or phone number.');
       return;
     }
 
@@ -72,20 +63,12 @@ const Page = () => {
 
       setToken(token);
 
-      toast({
-        title: "Success",
-        description: "Account created successfully! Redirecting to home...",
-      });
-
+      toast.success('Signed up successfully! Redirecting to home...');
       router.push("/");
 
     } catch (error: any) {
       console.error("Signup Error:", error);
-      toast({
-        title: "Error",
-        description: error.response?.data?.error || "Something went wrong. Please try again.",
-        variant: "destructive",
-      });
+      toast.error(error.response?.data?.error || "Something went wrong. Please try again.");
     } finally {
       setIsLoading(false);
     }

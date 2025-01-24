@@ -2,34 +2,29 @@
 
 import { Section } from "@/components/ui/Section";
 import { Input } from "@/components/ui/input";
-import { Select } from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useState } from "react";
-import { useToast } from "@/hooks/use-toast";
 import { Button } from "../ui/button";
 import Image from "next/image";
 import { useLanguage } from "@/constants/context/LanguageProvider"; // Assuming you have a LanguageContext
+import { toast } from "sonner";
 
 export const SubscriptionSection = () => {
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
   const [updates, setUpdates] = useState("all");
   const [isFarmer, setIsFarmer] = useState(false);
-  const { toast } = useToast();
   const { language } = useLanguage(); // Get current language
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    toast({
-      title:
-        language === "hi"
-          ? "सफलतापूर्वक सदस्यता ली!"
-          : "Successfully Subscribed!",
-      description:
-        language === "hi"
-          ? "हमारे समुदाय में शामिल होने के लिए धन्यवाद।"
-          : "Thank you for joining our community.",
-    });
+    toast(language === "hi"
+      ? "सफलतापूर्वक सदस्यता ली!"
+      : "Successfully Subscribed!", {
+      description: language === "hi"
+        ? "हमारे समुदाय में शामिल होने के लिए धन्यवाद।"
+        : "Thank you for joining our community."
+    })
     setEmail("");
     setName("");
     setUpdates("all");

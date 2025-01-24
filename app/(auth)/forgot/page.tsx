@@ -4,10 +4,9 @@ import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Section } from "@/components/ui/Section";
-import { useToast } from "@/hooks/use-toast";
+import { toast } from "sonner";
 
 const Page = () => {
-  const { toast } = useToast();
   const [email, setEmail] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -17,10 +16,7 @@ const Page = () => {
 
     // Simulate sending a password reset link
     setTimeout(() => {
-      toast({
-        title: "Success",
-        description: `Password reset link has been sent to ${email}.`,
-      });
+      toast.success(`Password reset link has been sent to ${email}.`);
       setIsSubmitting(false);
       setEmail("");
     }, 1500);

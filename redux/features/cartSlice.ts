@@ -1,7 +1,7 @@
-import { CartItem, Cart } from "@/types";
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import { getCart, addItemToCart, updateItemQuantity, removeItemFromCart, clearCart } from "../apis/cartAPI";
 import { RootState } from "../store";
+import { Cart, CartItem } from "@/types";
 
 interface CartState {
   cart: Cart | null; // Cart is a single object, not an array
@@ -20,7 +20,7 @@ export const fetchCart = createAsyncThunk("cart/fetchCart", async () => {
   return response.cart; // response.cart should now be an object with items and other properties
 });
 
-export const addToCart = createAsyncThunk("cart/addToCart", async (itemData: {productId:string, quantity:number}) => {
+export const addToCart = createAsyncThunk("cart/addToCart", async (itemData: { productId: string, quantity: number }) => {
   const response = await addItemToCart(itemData);
   return response.cartItem;
 });
@@ -31,7 +31,7 @@ export const updateCartItem = createAsyncThunk("cart/updateCartItem", async (ite
 });
 
 export const removeFromCart = createAsyncThunk("cart/removeFromCart", async (productId: string) => {
-  const response = await removeItemFromCart(productId);
+  await removeItemFromCart(productId);
   return productId;
 });
 
@@ -60,7 +60,7 @@ const cartSlice = createSlice({
       .addCase(addToCart.pending, (state) => {
         state.status = "loading";
       })
-      .addCase(addToCart.fulfilled, (state, action: PayloadAction<{productId:string, quantity:number}>) => {
+      .addCase(addToCart.fulfilled, (state, action: PayloadAction<{ productId: string, quantity: number }>) => {
         state.status = "succeeded";
       })
       .addCase(addToCart.rejected, (state, action) => {
@@ -72,9 +72,9 @@ const cartSlice = createSlice({
       })
       .addCase(updateCartItem.fulfilled, (state, action: PayloadAction<CartItem>) => {
         state.status = "succeeded";
-        const index = state.cart?.items.findIndex((item) => item.productId === action.payload.productId);
+        const index = state.cart?.items.findIndex((item: CartItem) => item.product._id === action.payload.product._id);
         if (index !== undefined && index >= 0 && state.cart) {
-          state.cart.items[index] = action.payload; // Update the item in the cart
+          state.cart.items[index] = action.payload;
         }
       })
       .addCase(updateCartItem.rejected, (state, action) => {
@@ -87,7 +87,7 @@ const cartSlice = createSlice({
       .addCase(removeFromCart.fulfilled, (state, action: PayloadAction<string>) => {
         state.status = "succeeded";
         if (state.cart) {
-          state.cart.items = state.cart.items.filter((item) => item.productId !== action.payload); // Remove the item from the cart
+          state.cart.items = state.cart.items.filter((item: CartItem) => item.product._id !== action.payload); // Remove the item from the cart
         }
       })
       .addCase(removeFromCart.rejected, (state, action) => {

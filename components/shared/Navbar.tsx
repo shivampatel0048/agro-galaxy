@@ -23,17 +23,20 @@ const Navbar = () => {
   const token = getToken();
   const pathname = usePathname();
   const router = useRouter();
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scope, animate] = useAnimate();
-
   const dispatch = useAppDispatch();
-  const cart = useAppSelector((state) => state.cart.cart);
+  const { cart, status } = useAppSelector((state) => state.cart);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const [isMounted, setIsMounted] = useState(true);
+
 
   useEffect(() => {
-    if (!cart) {
+    setIsMounted(false)
+    if (!cart && status === 'idle') {
       dispatch(fetchCart());
     }
-  }, [dispatch, cart])
+  }, [dispatch, cart, status])
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -75,7 +78,7 @@ const Navbar = () => {
             {/* Logo */}
             <div className="flex-shrink-0 relative z-50">
               <Link href={"/"}>
-                <h1 className="text-xl font-bold">Agro-Galaxy</h1>
+                <h1 className="text-xl font-bold">Agro Galaxy</h1>
               </Link>
             </div>
 
@@ -102,17 +105,15 @@ const Navbar = () => {
                   <Link
                     key={link.href}
                     href={link.href}
-                    className={`relative py-2 group ${
-                      isActive ? "text-blue-500" : "text-gray-700"
-                    }`}
+                    className={`relative py-2 group ${isActive ? "text-blue-500" : "text-gray-700"
+                      }`}
                   >
                     {link.label}
                     <span
-                      className={`absolute bottom-0 left-0 w-full h-0.5 bg-blue-500 transform origin-left transition-transform duration-300 ease-out ${
-                        isActive
-                          ? "scale-x-100"
-                          : "scale-x-0 group-hover:scale-x-100"
-                      }`}
+                      className={`absolute bottom-0 left-0 w-full h-0.5 bg-blue-500 transform origin-left transition-transform duration-300 ease-out ${isActive
+                        ? "scale-x-100"
+                        : "scale-x-0 group-hover:scale-x-100"
+                        }`}
                     />
                   </Link>
                 );
@@ -129,25 +130,23 @@ const Navbar = () => {
 
                 <LanguageSelection />
 
-                {token ? (
+                {token && !isMounted && <Button
+                  variant="outline"
+                  size="icon"
+                  // className="auth-button w-full max-w-xs bg-blue-500 hover:bg-blue-600 text-white"
+                  onClick={handleLogout}
+                >
+                  <LogOut />
+                </Button>}
+
+                {!token && !isMounted && <Link href="/sign-in">
                   <Button
                     variant="outline"
-                    size="icon"
-                    // className="auth-button w-full max-w-xs bg-blue-500 hover:bg-blue-600 text-white"
-                    onClick={handleLogout}
+                    className="text-blue-500 hover:text-blue-600"
                   >
-                    <LogOut />
+                    Login
                   </Button>
-                ) : (
-                  <Link href="/sign-in">
-                    <Button
-                      variant="outline"
-                      className="text-blue-500 hover:text-blue-600"
-                    >
-                      Login
-                    </Button>
-                  </Link>
-                )}
+                </Link>}
               </div>
             </div>
 
@@ -172,11 +171,10 @@ const Navbar = () => {
         {/* Mobile menu */}
         <div
           ref={scope}
-          className={`mobile-menu md:hidden fixed inset-0 bg-white/95 backdrop-blur-sm z-40 ${
-            isMenuOpen
-              ? "opacity-100 w-full min-h-screen"
-              : "opacity-0 pointer-events-none"
-          }`}
+          className={`mobile-menu md:hidden fixed inset-0 bg-white/95 backdrop-blur-sm z-40 ${isMenuOpen
+            ? "opacity-100 w-full min-h-screen"
+            : "opacity-0 pointer-events-none"
+            }`}
         >
           <div className="h-full flex flex-col pt-20 px-4">
             {/* Mobile Navigation Links */}
@@ -193,15 +191,14 @@ const Navbar = () => {
               ))}
 
               <div className="flex justify-center w-full">
-                {token ? (
-                  <Button
-                    variant="default"
-                    className="auth-button w-full max-w-xs bg-blue-500 hover:bg-blue-600 text-white"
-                    onClick={handleLogout}
-                  >
-                    Logout
-                  </Button>
-                ) : (
+                {token && !isMounted && <Button
+                  variant="default"
+                  className="auth-button w-full max-w-xs bg-blue-500 hover:bg-blue-600 text-white"
+                  onClick={handleLogout}
+                >
+                  Logout
+                </Button>}
+                {!token && !isMounted &&
                   <Button
                     variant="default"
                     className="auth-button w-full max-w-xs bg-blue-500 hover:bg-blue-600 text-white"
@@ -209,7 +206,7 @@ const Navbar = () => {
                   >
                     Sign In
                   </Button>
-                )}
+                }
               </div>
             </div>
 

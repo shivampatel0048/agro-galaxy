@@ -57,8 +57,24 @@ export interface User {
     updatedAt?: Date;
 }
 
+// Interface for the product details
+export interface CartProduct {
+    _id: string;
+    title: {
+        en: string;
+        hi: string;
+    };
+    description: {
+        en: string;
+        hi: string;
+    };
+    price: number;
+    discountPercentage: number;
+    thumbnail: string;
+}
+
 export interface CartItem {
-    productId: string;
+    product: CartProduct;
     quantity: number;
     price: number;
     totalPrice: number;
@@ -73,4 +89,3 @@ export interface Cart {
     updatedAt: string;
     __v: number;
 }
-
