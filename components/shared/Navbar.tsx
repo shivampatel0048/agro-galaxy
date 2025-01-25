@@ -193,7 +193,7 @@ const Navbar = () => {
           <div className="h-full flex flex-col pt-20 px-4">
             {/* Mobile Navigation Links */}
             <div className="flex items-center flex-col gap-y-6 flex-grow pt-8">
-              {navLinks.map((link) => (
+              {[...navLinks, { label: "Cart", href: "/cart" }].map((link) => (
                 <Link
                   key={link.href}
                   href={link.href}
