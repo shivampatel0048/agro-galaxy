@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react"
 import { useAppSelector, useAppDispatch } from "@/redux/hooks"
-import { fetchCart } from "@/redux/features/cartSlice"
+import { clearShoppingCart, fetchCart } from "@/redux/features/cartSlice"
 import { fetchUserInfo, updateUserById } from "@/redux/features/userSlice"
 import { getToken } from "@/utils/tokenUtils"
 import { Button } from "@/components/ui/button"
@@ -11,9 +11,13 @@ import { Checkbox } from "@/components/ui/checkbox"
 import { Address } from "@/types"
 import { Loader2 } from "lucide-react"
 import { toast } from "sonner"
+import { createNewOrder } from "@/redux/features/orderSlice"
+import { OrderData } from "@/types/order"
+import { useRouter } from "next/navigation"
 
 const CheckoutPage = () => {
     const dispatch = useAppDispatch()
+    const router = useRouter()
     const { cart, status: cartStatus } = useAppSelector((state) => state.cart)
     const { user, status } = useAppSelector((state) => state.user)
     const [newAddress, setNewAddress] = useState<Address>({
@@ -78,30 +82,37 @@ const CheckoutPage = () => {
 
     const handleCreateOrder = async () => {
         const selectedAddress = user?.addresses?.[selectedAddressIndex ?? 0];
-    
-        const orderData = {
+
+        if (!selectedAddress) {
+            return toast.error("Please select an address to proceed.");
+        }
+
+        const orderData: OrderData = {
             items: cart?.items.map((item) => ({
                 productId: item.product._id,
                 title: item.product.title.en,
                 quantity: item.quantity,
                 price: item.totalPrice,
             })) ?? [],
-            address: selectedAddress, 
+            address: selectedAddress,
             subtotal: subtotal,
             gst: gst,
             deliveryFee: deliveryFee,
-            total: total,
-            paymentStatus: "Pending",
-            status: "Pending",
+            total: total
         };
-    
         try {
-            console.log({orderData})
+            const action = await dispatch(createNewOrder(orderData));
+            if (action) {
+                const isCleared = await dispatch(clearShoppingCart()).unwrap();
+                if (isCleared) router.push("/");
+            } else {
+                toast.error("Failed to place order. Please try again.");
+            }
         } catch (error) {
             toast.error("Failed to place order. Please try again.");
         }
     };
-    
+
 
     return (
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
