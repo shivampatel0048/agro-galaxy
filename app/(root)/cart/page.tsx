@@ -25,7 +25,7 @@ const CartPage = () => {
   const handleRemove = (productId: string) => {
     dispatch(removeFromCart(productId));
   };
-
+  console.log({ cart })
   return (
     <section id="cart" className="py-16 max-w-[90%] md:max-w-6xl mx-auto">
       <h2 className="text-center text-4xl font-bold">Your Cart</h2>
@@ -39,11 +39,13 @@ const CartPage = () => {
                 key={item.product._id}
                 className="flex flex-col p-4 bg-gray-100 rounded-lg shadow-md"
               >
-                <img
-                  src={item.product.thumbnail}
-                  alt={item.product.title[language]}
-                  className="w-full h-40 object-cover rounded-lg"
-                />
+                <Link href={`/products/details/${item.product._id}`}>
+                  <img
+                    src={item.product.thumbnail}
+                    alt={item.product.title[language]}
+                    className="w-full h-40 object-cover rounded-lg"
+                  />
+                </Link>
 
                 <div className="mt-4 flex-grow">
                   <h3 className="text-lg font-semibold">
@@ -57,7 +59,7 @@ const CartPage = () => {
                     {item.quantity}
                   </div>
                   <div className="text-lg font-bold mt-2">
-                    ₹{item.totalPrice.toLocaleString("en-IN")}
+                    ₹{(item.totalPrice - (item.totalPrice * item.product.discountPercentage / 100)).toFixed(2)}
                   </div>
                 </div>
 

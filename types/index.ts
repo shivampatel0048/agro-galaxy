@@ -17,7 +17,6 @@ export interface Product {
         hi: string;
     };
     thumbnail: string;
-    images: string[];
     deleted: boolean;
     __v?: number;
     averageRating?: number;
@@ -28,10 +27,13 @@ export interface Review {
     _id: string;
     productId: string;
     rating: number;
-    userId: string;
+    userId: {
+        id?: string;
+        name: string;
+    };
     review: string;
     createdAt: string;
-    __v?: number;
+    __v: number;
 }
 
 

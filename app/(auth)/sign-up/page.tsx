@@ -18,7 +18,8 @@ const Page = () => {
   // State to hold form data
   const [formData, setFormData] = useState({
     name: '',
-    emailOrPhone: '',
+    email: '',
+    phone: '',
     password: '',
     confirmPassword: '',
   });
@@ -35,7 +36,7 @@ const Page = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    const { name, emailOrPhone, password, confirmPassword } = formData;
+    const { name, email, phone, password, confirmPassword } = formData;
 
     if (password !== confirmPassword) {
       toast.error('Passwords do not match. Please try again.');
@@ -46,7 +47,11 @@ const Page = () => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     const phoneRegex = /^[0-9]{10}$/;
 
-    if (!emailOrPhone || (!emailRegex.test(emailOrPhone) && !phoneRegex.test(emailOrPhone))) {
+    if (!email || (!emailRegex.test(email) && !phoneRegex.test(email))) {
+      toast.error('Please provide a valid email or phone number.');
+      return;
+    }
+    if (!phone || (!emailRegex.test(phone) && !phoneRegex.test(phone))) {
       toast.error('Please provide a valid email or phone number.');
       return;
     }
@@ -54,11 +59,7 @@ const Page = () => {
     setIsLoading(true);
 
     try {
-      const query = emailRegex.test(emailOrPhone)
-        ? { email: emailOrPhone }
-        : { phone: emailOrPhone };
-
-      const response = await signup({ name, ...query, password });
+      const response = await signup({ name, email, phone, password });
       const { token } = response;
 
       setToken(token);
@@ -109,10 +110,25 @@ const Page = () => {
             <div className="relative">
               <Input
                 type="text"
-                name="emailOrPhone"
-                value={formData.emailOrPhone}
+                name="email"
+                value={formData.email}
                 onChange={handleChange}
                 placeholder="Email"
+                required
+                className="pl-12 py-3"
+              />
+              <span className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400">
+                ✉️
+              </span>
+            </div>
+             {/* Email */}
+             <div className="relative">
+              <Input
+                type="text"
+                name="phone"
+                value={formData.phone}
+                onChange={handleChange}
+                placeholder="Phone"
                 required
                 className="pl-12 py-3"
               />

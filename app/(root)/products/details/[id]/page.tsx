@@ -1,14 +1,12 @@
-import React from 'react'
 
-const Page = async ({
-    params,
-}: {
-    params: Promise<{ id: string }>
-}) => {
-    const id = (await params).id
+import ProductDetails from "@/components/product/ProductDetails";
+
+const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
+    const id = (await params).id;
+
     return (
-        <div>Product Detail : {id}</div>
-    )
-}
+        <ProductDetails id={id} />
+    );
+};
 
-export default Page
+export default Page;

@@ -110,11 +110,10 @@ const page = () => {
               {[...Array(5)].map((_, i) => (
                 <Star
                   key={i}
-                  className={`h-6 w-6 ${
-                    i < averageRating
+                  className={`h-6 w-6 ${i < averageRating
                       ? "fill-yellow-400 text-yellow-400"
                       : "text-gray-300"
-                  }`}
+                    }`}
                 />
               ))}
               <span className="text-sm text-gray-500">
@@ -138,7 +137,7 @@ const page = () => {
               </ul>
             </div>
             <Button className="mt-10 bg-blue-700 text-white hover:bg-blue-800 transition-all">
-             Buy Now
+              Buy Now
             </Button>
           </div>
         </div>
@@ -202,11 +201,10 @@ const page = () => {
                       {[...Array(5)].map((_, i) => (
                         <Star
                           key={i}
-                          className={`h-5 w-5 ${
-                            i < review.rating
+                          className={`h-5 w-5 ${i < review.rating
                               ? "fill-yellow-400 text-yellow-400"
                               : "text-gray-300"
-                          }`}
+                            }`}
                         />
                       ))}
                     </div>

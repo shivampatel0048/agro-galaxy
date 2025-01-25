@@ -2,9 +2,10 @@
 
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
-import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { useAppDispatch } from "@/redux/hooks";
 import { addToCart, fetchCart } from "@/redux/features/cartSlice";
 import { getToken } from "@/utils/tokenUtils";
+import Link from "next/link";
 
 interface ProductCardProps {
   id: string;
@@ -53,12 +54,10 @@ const ProductCard: React.FC<ProductCardProps> = ({
       productId: id,
       quantity: 1,
     };
-    console.log(cartItemData);
 
     dispatch(addToCart(cartItemData))
       .unwrap()
       .then(() => {
-        console.log(`Added ${title[language]} to cart.`);
         setIsAddedToCart(!isAddedToCart);
       })
       .catch((error) => {
@@ -72,15 +71,17 @@ const ProductCard: React.FC<ProductCardProps> = ({
 
   return (
     <div className="group relative flex flex-col overflow-hidden rounded-lg bg-white shadow-md hover:shadow-lg">
-      <div className="relative h-48 w-full overflow-hidden">
-        <Image
-          src={thumbnail}
-          alt={title[language]}
-          height={400}
-          width={400}
-          className="w-full h-48 object-cover transition-transform duration-300 group-hover:scale-105"
-        />
-      </div>
+      <Link href={`/products/details/${id}`} className="w-full">
+        <div className="relative h-48 w-full overflow-hidden">
+          <Image
+            src={thumbnail}
+            alt={title[language]}
+            height={400}
+            width={400}
+            className="w-full h-48 object-cover transition-transform duration-300 group-hover:scale-105"
+          />
+        </div>
+      </Link>
       <div className="p-4">
         <h3 className="text-lg font-semibold text-gray-800">
           {title[language]}
@@ -102,7 +103,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
           {language === "en" ? "discountedPrice " : "मूल्य"}: ₹{discountedPrice}
         </p> */}
         <p className="text-lg font-bold text-gray-900 mt-2 ">
-          {language === "en" ? "Price" : "मूल्य"}: ₹{price}
+          {language === "en" ? "Price" : "मूल्य"}: ₹{discountedPrice}
         </p>
         <div className="mt-4 flex flex-col gap-4 sm:flex-row sm:justify-between items-center">
           <button
