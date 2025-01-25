@@ -68,7 +68,7 @@ export default function OrdersPage() {
                                         <div className="grid gap-4">
                                             {order.items.map((item) => (
                                                 <Card key={item.product._id}>
-                                                    <CardContent className="flex flex-col sm:flex-row justify-between items-center p-4">
+                                                    <CardContent className="flex flex-col sm:flex-row justify-between items-center gap-y-4 gap-x-2 p-4">
                                                         <div className="flex items-center space-x-4">
                                                             <Image
                                                                 src={item.product.thumbnail}
