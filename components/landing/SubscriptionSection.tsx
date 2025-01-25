@@ -131,9 +131,6 @@ export const SubscriptionSection = () => {
                       : "News & Blog Posts"}
                   </option>
                 </select>
-                <span className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500">
-                  &#9660;
-                </span>
               </div>
             </div>
 

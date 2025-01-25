@@ -6,10 +6,12 @@ import { fetchCart, removeFromCart } from "@/redux/features/cartSlice";
 import { getToken } from "@/utils/tokenUtils";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { useLanguage } from "@/constants/context/LanguageProvider";
 
 const CartPage = () => {
   const dispatch = useAppDispatch();
   const cart = useAppSelector((state) => state.cart.cart);
+  const { language } = useLanguage();
 
 
   useEffect(() => {
@@ -39,16 +41,16 @@ const CartPage = () => {
               >
                 <img
                   src={item.product.thumbnail}
-                  alt={item.product.title.en}
+                  alt={item.product.title[language]}
                   className="w-full h-40 object-cover rounded-lg"
                 />
 
                 <div className="mt-4 flex-grow">
                   <h3 className="text-lg font-semibold">
-                    {item.product.title.en}
+                    {item.product.title[language]}
                   </h3>
                   <p className="text-sm text-gray-600 mt-2">
-                    {item.product.description.en}
+                    {item.product.description[language]}
                   </p>
                   <div className="mt-2">
                     <span className="font-medium">Quantity:</span>{" "}

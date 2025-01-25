@@ -40,7 +40,7 @@ export const getOrderById = async (orderId: string): Promise<{ order: Order }> =
 // Get all orders for the authenticated user
 export const getUserOrders = async (): Promise<{ orders: Order[] }> => {
     try {
-        const response = await API.get("/api/order/user");
+        const response = await API.get("/api/order/my-orders");
         return { orders: response.data };
     } catch (error) {
         console.error("Error fetching user orders:", error);

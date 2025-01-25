@@ -14,10 +14,12 @@ import { toast } from "sonner"
 import { createNewOrder } from "@/redux/features/orderSlice"
 import { OrderData } from "@/types/order"
 import { useRouter } from "next/navigation"
+import { useLanguage } from "@/constants/context/LanguageProvider"
 
 const CheckoutPage = () => {
     const dispatch = useAppDispatch()
     const router = useRouter()
+    const { language } = useLanguage();
     const { cart, status: cartStatus } = useAppSelector((state) => state.cart)
     const { user, status } = useAppSelector((state) => state.user)
     const [newAddress, setNewAddress] = useState<Address>({
@@ -90,7 +92,7 @@ const CheckoutPage = () => {
         const orderData: OrderData = {
             items: cart?.items.map((item) => ({
                 productId: item.product._id,
-                title: item.product.title.en,
+                title: item.product.title[language],
                 quantity: item.quantity,
                 price: item.totalPrice,
             })) ?? [],
@@ -125,12 +127,12 @@ const CheckoutPage = () => {
                         <div key={item.product._id} className="flex items-center mb-4 p-4 bg-gray-100 rounded-lg">
                             <img
                                 src={item.product.thumbnail || "/placeholder.svg"}
-                                alt={item.product.title.en}
+                                alt={item.product.title[language]}
                                 className="w-20 h-20 object-cover rounded mr-4"
                             />
                             <div>
-                                <h3 className="font-semibold">{item.product.title.en}</h3>
-                                <p className="text-sm text-gray-600">{item.product.description.en.substring(0, 100)}...</p>
+                                <h3 className="font-semibold">{item.product.title[language]}</h3>
+                                <p className="text-sm text-gray-600">{item.product.description[language].substring(0, 100)}...</p>
                                 <p className="mt-1">Quantity: {item.quantity}</p>
                                 <p className="font-semibold">₹{item.totalPrice.toLocaleString("en-IN")}</p>
                             </div>
