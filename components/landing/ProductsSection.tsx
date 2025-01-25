@@ -8,6 +8,7 @@ import { fetchProducts } from "@/redux/features/ProductSlice";
 import { fetchCart } from "@/redux/features/cartSlice";
 import ProductCard from "@/components/shared/ProductCard";
 import { Section } from "@/components/ui/Section";
+import { getToken } from "@/utils/tokenUtils";
 
 const ProductsSection = () => {
   const dispatch = useAppDispatch();
@@ -54,17 +55,10 @@ const ProductsSection = () => {
   const currentTexts = texts[language] || texts.en;
 
   useEffect(() => {
+    const token = getToken();
     if (productStatus === "idle") dispatch(fetchProducts());
-    if (cartStatus === "idle") dispatch(fetchCart());
+    if (cartStatus === "idle" && token) dispatch(fetchCart());
   }, [dispatch, productStatus, cartStatus]);
-
-  const handleAddToCart = (productName: string) => {
-    console.log(`${productName} added to cart.`);
-  };
-
-  const handleBuyNow = (productName: string) => {
-    console.log(`Purchased: ${productName}`);
-  };
 
   return (
     <Section id="products" className="bg-background py-16">

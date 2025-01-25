@@ -8,6 +8,7 @@ import { fetchProducts } from "@/redux/features/ProductSlice";
 import { Product } from "@/types";
 import Image from "next/image";
 import { fetchCart } from "@/redux/features/cartSlice";
+import { getToken } from "@/utils/tokenUtils";
 
 const Page = () => {
   const dispatch = useAppDispatch();
@@ -50,10 +51,11 @@ const Page = () => {
   const currentTexts = texts[language] || texts.en; // Default to English if language is not set
 
   useEffect(() => {
+    const token = getToken();
     if (productStatus === "idle") {
       dispatch(fetchProducts());
     }
-    if (cartStatus === "idle") {
+    if (cartStatus === "idle" && token) {
       dispatch(fetchCart());
     }
   }, [dispatch, productStatus, cartStatus]);

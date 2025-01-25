@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { addToCart, fetchCart } from "@/redux/features/cartSlice";
+import { getToken } from "@/utils/tokenUtils";
 
 interface ProductCardProps {
   id: string;
@@ -40,10 +41,12 @@ const ProductCard: React.FC<ProductCardProps> = ({
   const [isAddedToCart, setIsAddedToCart] = useState<boolean>(false);
 
   useEffect(() => {
-    if (isAddedToCart) {
+    const token = getToken();
+
+    if (isAddedToCart && token) {
       dispatch(fetchCart());
     }
-  }, [isAddedToCart, dispatch]);  
+  }, [isAddedToCart, dispatch]);
 
   const handleAddToCart = () => {
     const cartItemData = {
@@ -90,7 +93,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
           {language === "en" ? "Brand" : "ब्रांड"}: {brand}
         </p> */}
         <p className="text-sm text-gray-500 mt-1">
-          {language === "en" ? "Rating" : "रेटिंग"}: {averageRating || "N/A"}
+          {language === "en" ? "Rating" : "रेटिंग"}: {averageRating || "0"}
         </p>
         {/* <p className="text-sm text-gray-500 mt-1">
           {language === "en" ? "Stock" : "स्टॉक"}: {stock}

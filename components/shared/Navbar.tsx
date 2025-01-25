@@ -32,8 +32,10 @@ const Navbar = () => {
 
 
   useEffect(() => {
+    const token = getToken();
+
     setIsMounted(false)
-    if (!cart && status === 'idle') {
+    if (!cart && status === 'idle' && token) {
       dispatch(fetchCart());
     }
   }, [dispatch, cart, status])
@@ -119,14 +121,14 @@ const Navbar = () => {
                 );
               })}
               <div className="flex items-center gap-x-8">
-                <Link href="/cart">
+                {token && <Link href="/cart">
                   <button className="relative">
                     <ShoppingCart className="h-6 w-6 text-gray-700 hover:text-blue-500 transition-colors duration-200" />
-                    <span className="absolute -top-2 -right-2 bg-blue-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+                    {(cart?.items ?? []).length > 0 && <span className="absolute -top-2 -right-2 bg-blue-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
                       {(cart?.items ?? []).length > 0 ? cart?.items.length : 0}
-                    </span>
+                    </span>}
                   </button>
-                </Link>
+                </Link>}
 
                 <LanguageSelection />
 

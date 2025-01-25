@@ -3,13 +3,17 @@
 import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { fetchCart, removeFromCart } from "@/redux/features/cartSlice";
+import { getToken } from "@/utils/tokenUtils";
 
 const CartPage = () => {
   const dispatch = useAppDispatch();
   const cart = useAppSelector((state) => state.cart.cart);
 
+
   useEffect(() => {
-    if (!cart) {
+    const token = getToken();
+    
+    if (!cart && token) {
       dispatch(fetchCart());
     }
   }, [dispatch, cart]);
