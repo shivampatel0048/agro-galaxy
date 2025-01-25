@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Menu, X, ShoppingCart, LogOut } from "lucide-react";
+import { Menu, X, ShoppingCart, LogOut, CircleUser } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useAnimate, stagger } from "framer-motion";
 import Link from "next/link";
@@ -120,8 +120,8 @@ const Navbar = () => {
                   </Link>
                 );
               })}
-              <div className="flex items-center gap-x-8">
-                {token && <Link href="/cart">
+              <div className="flex items-center gap-x-5">
+                {token && !isMounted && <Link href="/cart">
                   <button className="relative">
                     <ShoppingCart className="h-6 w-6 text-gray-700 hover:text-blue-500 transition-colors duration-200" />
                     {(cart?.items ?? []).length > 0 && <span className="absolute -top-2 -right-2 bg-blue-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
@@ -149,6 +149,12 @@ const Navbar = () => {
                     Login
                   </Button>
                 </Link>}
+
+                {token && !isMounted && <Link href="/profile">
+                  <button>
+                    <CircleUser strokeWidth={1.5} size={28} />
+                  </button>
+                </Link>}
               </div>
             </div>
 
@@ -166,6 +172,12 @@ const Navbar = () => {
               </button>
 
               <LanguageSelection />
+
+              {token && !isMounted && <Link href="/profile">
+                <button>
+                  <CircleUser strokeWidth={1.5} size={28} />
+                </button>
+              </Link>}
             </div>
           </div>
         </div>
