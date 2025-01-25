@@ -1,4 +1,6 @@
-export interface Order { }
+export interface Order {
+    _id: string;
+}
 
 interface OrderItem {
     productId: string;
