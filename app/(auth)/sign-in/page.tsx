@@ -10,6 +10,7 @@ import { setToken } from "@/utils/tokenUtils"; // Utility to store the token
 import { login } from "@/redux/apis/authAPI";
 import { Loader } from "lucide-react";
 import { toast } from "sonner";
+import { setUserId } from "@/utils/userUtils";
 
 const Page = () => {
   const router = useRouter();
@@ -53,11 +54,13 @@ const Page = () => {
     try {
       const response = await login(query, password);
 
-      const { token } = response;
+      const { token, user } = response;
 
       setToken(token);
+      //@ts-ignore
+      setUserId(user?.id);
 
-      toast.success('Logged in successfully! Redirecting to home...');
+      toast.success('Logged in successfully!');
 
       router.push("/");
     } catch (error: any) {

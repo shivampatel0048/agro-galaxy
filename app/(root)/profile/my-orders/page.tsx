@@ -49,7 +49,7 @@ export default function OrdersPage() {
                             <CardHeader className="sr-only">
                                 <CardTitle className="sr-only">Order</CardTitle>
                             </CardHeader>
-                            <CardContent className="pt-6">
+                            <CardContent className="p-4 sm:p-6">
                                 <div className="grid gap-4">
                                     <div>
                                         <p>

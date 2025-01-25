@@ -15,11 +15,14 @@ import { Button } from "@/components/ui/button"
 import { toast } from "sonner"
 import { addReview, removeReview } from "@/redux/features/reviewSlice"
 import { addToCart, fetchCart } from "@/redux/features/cartSlice"
-import { Review } from "@/types"
 import { timeAgo } from "@/lib/utils"
+import { getUserId } from "@/utils/userUtils"
+import { getToken } from "@/utils/tokenUtils"
 
 const ProductDetails: React.FC<{ id: string }> = ({ id }) => {
-    const dispatch = useAppDispatch()
+    const dispatch = useAppDispatch();
+    const mainUserId = getUserId() ?? null;
+    const token = getToken();
     const { currentProduct: product } = useAppSelector((state) => state.products)
     const { language } = useLanguage()
     const [userRating, setUserRating] = useState(0)
@@ -196,7 +199,7 @@ const ProductDetails: React.FC<{ id: string }> = ({ id }) => {
                                                     By {review.userId.name} on {timeAgo(review.createdAt)}
                                                 </p>
                                             </CardContent>
-                                            {review?.userId?.id && <Button onClick={() => handleRemoveReview(review._id)} type="button" variant='ghost' size='icon' className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-all hover:text-red-500 hover:bg-red-50 duration-300">
+                                            {mainUserId && review?.userId?.id && (mainUserId === review?.userId?.id) && <Button onClick={() => handleRemoveReview(review._id)} type="button" variant='ghost' size='icon' className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-all hover:text-red-500 hover:bg-red-50 duration-300">
                                                 <Trash2 strokeWidth={1.5} />
                                             </Button>}
                                         </Card>
@@ -208,8 +211,8 @@ const ProductDetails: React.FC<{ id: string }> = ({ id }) => {
                         )}
                     </div>
 
-                    <Separator className="my-6" />
-                    <div>
+                    {token && <Separator className="my-6" />}
+                    {token && <div>
                         <h2 className="text-2xl font-bold mb-4">Write a Review</h2>
                         <div className="space-y-4">
                             <div className="flex items-center space-x-2">
@@ -231,7 +234,7 @@ const ProductDetails: React.FC<{ id: string }> = ({ id }) => {
                                 {isSubmitting ? "Submitting..." : "Submit Review"}
                             </Button>
                         </div>
-                    </div>
+                    </div>}
                 </CardContent>
             </Card>
         </div>
