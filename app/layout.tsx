@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
-import { Toaster } from "@/components/ui/sonner"
 import { LanguageProvider } from "@/constants/context/LanguageProvider";
 import StoreProvider from "@/constants/context/StoreProvider";
+import { Toaster } from "@/components/ui/sonner";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -29,12 +29,12 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased m-0 p-0 scroll-smooth box-border`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased m-0 p-0 scroll-smooth box-border relative`}
       >
         <LanguageProvider>
           <StoreProvider>{children}</StoreProvider>
+          <Toaster richColors position="top-right" closeButton />
         </LanguageProvider>
-        <Toaster richColors />
       </body>
     </html>
   );
