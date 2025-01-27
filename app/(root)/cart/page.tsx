@@ -25,7 +25,7 @@ const CartPage = () => {
   const handleRemove = (productId: string) => {
     dispatch(removeFromCart(productId));
   };
-  console.log({ cart })
+  
   return (
     <section id="cart" className="py-16 max-w-[90%] md:max-w-6xl mx-auto">
       <h2 className="text-center text-4xl font-bold">Your Cart</h2>
