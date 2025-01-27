@@ -84,7 +84,7 @@ const ProductsSection = () => {
             {products.slice(0, 4).map((product) => (
               <ProductCard
                 key={product._id}
-                id={product._id}
+                id={product?._id ?? ''}
                 title={product.title}
                 description={product.description}
                 category={product.category}
