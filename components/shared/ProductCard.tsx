@@ -95,7 +95,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
         <h3 className="text-lg font-semibold text-gray-800">
           {title[language]}
         </h3>
-        <p className="text-sm text-gray-500 mt-1">{description[language]}</p>
+        <p className="text-sm text-gray-500 mt-1 line-clamp-2">{description[language]}</p>
         <p className="text-sm text-gray-500 mt-1">
           {language === "en" ? "Rating" : "रेटिंग"}: {averageRating.toFixed(2) || "0"}
         </p>

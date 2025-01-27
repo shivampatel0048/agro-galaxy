@@ -8,10 +8,11 @@ import {
     getAllOrders as apiGetAllOrders,
 } from "../apis/orderAPI"; // Assuming these API functions are exported from a file named orderAPI.ts
 import { RootState } from "../store";
-import { Order, OrderData } from "@/types/order";
+import { AllOrders, Order, OrderData } from "@/types/order";
 
 interface OrderState {
     orders: Order[] | null;
+    allOrders: AllOrders[] | null;
     selectedOrder: Order | null;
     status: "idle" | "loading" | "succeeded" | "failed";
     error: string | null;
@@ -19,6 +20,7 @@ interface OrderState {
 
 const initialState: OrderState = {
     orders: null,
+    allOrders: null,
     selectedOrder: null,
     status: "idle",
     error: null,
@@ -39,7 +41,7 @@ export const createNewOrder = createAsyncThunk(
     });
 
 // Update an order by ID
-export const updateOrderStatus = createAsyncThunk("orders/updateOrderStatus", async ({ orderId, orderData }: { orderId: string; orderData: { status: string } }) => {
+export const updateOrderStatus = createAsyncThunk("orders/updateOrderStatus", async ({ orderId, orderData }: { orderId: string; orderData: { status: string, paymentStatus: string } }) => {
     const response = await apiUpdateOrder(orderId, orderData);
     return response.order;
 });
@@ -71,9 +73,9 @@ const orderSlice = createSlice({
         builder.addCase(fetchAllOrders.pending, (state) => {
             state.status = "loading";
         });
-        builder.addCase(fetchAllOrders.fulfilled, (state, action: PayloadAction<Order[]>) => {
+        builder.addCase(fetchAllOrders.fulfilled, (state, action: PayloadAction<AllOrders[]>) => {
             state.status = "succeeded";
-            state.orders = action.payload;
+            state.allOrders = action.payload;
         });
         builder.addCase(fetchAllOrders.rejected, (state, action) => {
             state.status = "failed";

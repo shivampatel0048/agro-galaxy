@@ -13,6 +13,26 @@ export interface Order {
     updatedAt: string;
     __v: number;
 }
+export interface AllOrders {
+    _id: string;
+    userId: {
+        _id: string;
+        name: string;
+        email: string;
+        phone: string;
+    }
+    items: IOrderItem[];
+    totalPrice: number;
+    subtotal: number;
+    gst: number;
+    deliveryFee: number;
+    orderStatus: string;
+    shippingAddress: string;
+    paymentStatus: string;
+    createdAt: string;
+    updatedAt: string;
+    __v: number;
+}
 
 export interface IOrderItem {
     product: Product;

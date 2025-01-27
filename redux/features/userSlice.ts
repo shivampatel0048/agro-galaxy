@@ -1,16 +1,18 @@
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import { User } from "@/types";
-import { getUserInfo, updateUser, deleteUser } from "../apis/userAPI";
+import { getUserInfo, updateUser, deleteUser, getAllUsers } from "../apis/userAPI";
 import { RootState } from "../store";
 
 interface UserState {
     user: User | null;
+    users: User[] | null;
     status: "idle" | "loading" | "succeeded" | "failed";
     error: string | null;
 }
 
 const initialState: UserState = {
     user: null,
+    users: null,
     status: "idle",
     error: null,
 };
@@ -20,6 +22,14 @@ export const fetchUserInfo = createAsyncThunk<User>("user/fetchUser", async () =
     const response = await getUserInfo();
     return response.user;
 });
+
+export const getAllUsersInfo = createAsyncThunk<User[]>(
+    "user/getAllUsers",
+    async () => {
+        const response = await getAllUsers();
+        return response.user;
+    }
+);
 
 export const updateUserById = createAsyncThunk<User, { id: string; userData: Partial<User> }>(
     "user/updateUserById",
@@ -54,6 +64,18 @@ const userSlice = createSlice({
             .addCase(fetchUserInfo.rejected, (state, action) => {
                 state.status = "failed";
                 state.error = action.error.message ?? "Failed to fetch user";
+            })
+            // Fetch all users
+            .addCase(getAllUsersInfo.pending, (state) => {
+                state.status = "loading";
+            })
+            .addCase(getAllUsersInfo.fulfilled, (state, action: PayloadAction<User[]>) => {
+                state.status = "succeeded";
+                state.users = action.payload;
+            })
+            .addCase(getAllUsersInfo.rejected, (state, action) => {
+                state.status = "failed";
+                state.error = action.error.message ?? "Failed to fetch users";
             })
             // Update user
             .addCase(updateUserById.pending, (state) => {
