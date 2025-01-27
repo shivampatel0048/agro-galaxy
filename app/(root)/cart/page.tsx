@@ -13,7 +13,6 @@ const CartPage = () => {
   const cart = useAppSelector((state) => state.cart.cart);
   const { language } = useLanguage();
 
-
   useEffect(() => {
     const token = getToken();
 

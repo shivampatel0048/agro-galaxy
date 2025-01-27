@@ -18,6 +18,41 @@ export default function OrdersPage() {
     const router = useRouter()
     const { language } = useLanguage();
 
+    const texts = {
+        en: {
+            orderDate: "Order Date",
+            status: "Status",
+            paymentStatus: "Payment Status",
+            items: "Items",
+            subtotal: "Subtotal",
+            gst: "GST",
+            deliveryFee: "Delivery Fee",
+            total: "Total",
+            shippingAddress: "Shipping Address",
+            viewDetails: "View Details",
+            noOrders: "You have no orders yet.",
+            quantity: "Quantity",
+            price: "Price"
+        },
+        hi: {
+            orderDate: "आदेश तिथि",
+            status: "स्थिति",
+            paymentStatus: "भुगतान स्थिति",
+            items: "सामान",
+            subtotal: "उप-योग",
+            gst: "जीएसटी",
+            deliveryFee: "डिलीवरी शुल्क",
+            total: "कुल",
+            shippingAddress: "शिपिंग पता",
+            viewDetails: "विवरण देखें",
+            noOrders: "आपके पास अभी तक कोई आदेश नहीं है।",
+            quantity: "मात्रा",
+            price: "कीमत"
+        },
+    }
+    
+    const t = texts[language] || texts.en;
+
     useEffect(() => {
         const token = getToken()
 
@@ -27,17 +62,17 @@ export default function OrdersPage() {
     }, [dispatch, status])
 
     if (status === "loading") {
-        return <div className="container mx-auto p-4">Loading orders...</div>
+        return <div className="container mx-auto p-4">{t.noOrders}</div>
     }
 
     if (status === "failed") {
-        return <div className="container mx-auto p-4">Failed to load orders. Please try again.</div>
+        return <div className="container mx-auto p-4">{t.noOrders}</div>
     }
 
     return (
         <div className="max-w-4xl w-full mx-auto p-4">
             <div className="mb-6 flex items-center justify-between">
-                <h1 className="text-3xl font-bold">Your Orders</h1>
+                <h1 className="text-3xl font-bold">{t.items}</h1>
                 <Button onClick={() => router.back()}>
                     Back
                 </Button>
@@ -53,18 +88,18 @@ export default function OrdersPage() {
                                 <div className="grid gap-4">
                                     <div>
                                         <p>
-                                            <strong>Order Date:</strong> {new Date(order.createdAt).toLocaleString()}
+                                            <strong>{t.orderDate}:</strong> {new Date(order.createdAt).toLocaleString()}
                                         </p>
                                         <p>
-                                            <strong>Status:</strong> {order.orderStatus}
+                                            <strong>{t.status}:</strong> {order.orderStatus}
                                         </p>
                                         <p>
-                                            <strong>Payment Status:</strong> {order.paymentStatus}
+                                            <strong>{t.paymentStatus}:</strong> {order.paymentStatus}
                                         </p>
                                     </div>
                                     <Separator />
                                     <div>
-                                        <h3 className="text-lg font-semibold mb-2">Items</h3>
+                                        <h3 className="text-lg font-semibold mb-2">{t.items}</h3>
                                         <div className="grid gap-4">
                                             {order.items.map((item) => (
                                                 <Card key={item.product._id}>
@@ -87,7 +122,7 @@ export default function OrdersPage() {
 
                                                         <Link href={`/products/details/${item.product._id}`} passHref>
                                                             <Button type="button" variant="outline">
-                                                                View Details
+                                                                {t.viewDetails}
                                                             </Button>
                                                         </Link>
                                                     </CardContent>
@@ -98,21 +133,21 @@ export default function OrdersPage() {
                                     <Separator />
                                     <div>
                                         <p>
-                                            <strong>Subtotal:</strong> ₹{order.subtotal.toLocaleString("en-IN")}
+                                            <strong>{t.subtotal}:</strong> ₹{order.subtotal.toLocaleString("en-IN")}
                                         </p>
                                         <p>
-                                            <strong>GST:</strong> ₹{order.gst.toLocaleString("en-IN")}
+                                            <strong>{t.gst}:</strong> ₹{order.gst.toLocaleString("en-IN")}
                                         </p>
                                         <p>
-                                            <strong>Delivery Fee:</strong> ₹{order.deliveryFee.toLocaleString("en-IN")}
+                                            <strong>{t.deliveryFee}:</strong> ₹{order.deliveryFee.toLocaleString("en-IN")}
                                         </p>
                                         <p className="text-lg font-semibold">
-                                            <strong>Total:</strong> ₹{order.totalPrice.toLocaleString("en-IN")}
+                                            <strong>{t.total}:</strong> ₹{order.totalPrice.toLocaleString("en-IN")}
                                         </p>
                                     </div>
                                     <Separator />
                                     <div>
-                                        <h3 className="text-lg font-semibold mb-2">Shipping Address</h3>
+                                        <h3 className="text-lg font-semibold mb-2">{t.shippingAddress}</h3>
                                         <p>{order.shippingAddress}</p>
                                     </div>
                                 </div>
@@ -121,7 +156,7 @@ export default function OrdersPage() {
                     ))}
                 </div>
             ) : (
-                <p>You have no orders yet.</p>
+                <p>{t.noOrders}</p>
             )}
         </div>
     )
