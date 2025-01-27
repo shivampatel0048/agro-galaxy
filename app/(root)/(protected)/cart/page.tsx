@@ -7,10 +7,11 @@ import { getToken } from "@/utils/tokenUtils";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { useLanguage } from "@/constants/context/LanguageProvider";
+import LoadingUI from "@/components/loaders/LoadingUI";
 
 const CartPage = () => {
   const dispatch = useAppDispatch();
-  const cart = useAppSelector((state) => state.cart.cart);
+  const { cart, status } = useAppSelector((state) => state.cart);
   const { language } = useLanguage();
 
   useEffect(() => {
@@ -24,7 +25,9 @@ const CartPage = () => {
   const handleRemove = (productId: string) => {
     dispatch(removeFromCart(productId));
   };
-  
+
+  if (status === "loading") return <LoadingUI />
+
   return (
     <section id="cart" className="py-16 max-w-[90%] md:max-w-6xl mx-auto">
       <h2 className="text-center text-4xl font-bold">Your Cart</h2>
