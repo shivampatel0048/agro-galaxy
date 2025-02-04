@@ -20,10 +20,6 @@ export interface Product {
         en: string;
         hi: string;
     };
-    moreDetails:{
-        en: string;
-        hi: string;
-    };
     thumbnail: string;
     deleted?: boolean;
     __v?: number;
