@@ -14,6 +14,7 @@ import { toast } from "sonner"
 import { getToken } from "@/utils/tokenUtils"
 import Link from "next/link"
 import { useLanguage } from "@/constants/context/LanguageProvider";
+import LoadingUI from "@/components/loaders/LoadingUI"
 
 // Translations for English and Hindi
 const texts = {
@@ -37,7 +38,6 @@ const texts = {
     save: "Save",
     delete: "Delete",
     noChanges: "No changes detected in the address.",
-    loading: "Loading...",
     nameEmpty: "Name cannot be empty",
     emailEmpty: "Email cannot be empty",
   },
@@ -61,7 +61,6 @@ const texts = {
     save: "सहेजें",
     delete: "हटाएं",
     noChanges: "पते में कोई बदलाव नहीं हुआ।",
-    loading: "लोड हो रहा है...",
     nameEmpty: "नाम खाली नहीं हो सकता",
     emailEmpty: "ईमेल खाली नहीं हो सकता",
   },
@@ -95,7 +94,7 @@ export default function ProfilePage() {
   }, [dispatch, status])
 
   if (!user) {
-    return <div>{t.loading}</div>
+    return <LoadingUI />
   }
 
   const handleUpdateName = () => {

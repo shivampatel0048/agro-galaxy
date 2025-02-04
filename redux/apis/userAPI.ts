@@ -12,6 +12,16 @@ export const getUserInfo = async (): Promise<{ user: User }> => {
     }
 };
 
+export const getAllUsers = async (): Promise<{ user: User[] }> => {
+    try {
+        const response = await API.get(`/api/user/all`);
+        return { user: response.data };
+    } catch (error) {
+        console.error("Error fetching users:", error);
+        throw error;
+    }
+};
+
 // Update User
 export const updateUser = async (
     id: string,

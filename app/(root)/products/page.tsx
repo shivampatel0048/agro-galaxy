@@ -8,6 +8,7 @@ import { fetchProducts } from "@/redux/features/ProductSlice";
 import { fetchCart } from "@/redux/features/cartSlice";
 import ProductCard from "@/components/shared/ProductCard";
 import { Section } from "@/components/ui/Section";
+import LoadingUI from "@/components/loaders/LoadingUI";
 
 const Page = () => {
   const dispatch = useAppDispatch();
@@ -53,6 +54,9 @@ const Page = () => {
       dispatch(fetchProducts());
     }
   }, [dispatch, productStatus, products]);
+
+  if (productStatus === "loading") return <LoadingUI />
+
   return (
     <Section id="products" className="bg-background py-16">
       <h2 className="text-center text-4xl font-bold text-text-primary md:text-5xl">
@@ -63,7 +67,6 @@ const Page = () => {
       </p>
 
       <div className="mt-12">
-        {productStatus === "loading" && <p>{currentTexts.loadingProducts}</p>}
         {productStatus === "failed" && (
           <p>
             {currentTexts.errorLoadingProducts.replace(
@@ -77,7 +80,7 @@ const Page = () => {
             {products.map((product) => (
               <ProductCard
                 key={product._id}
-                id={product._id}
+                id={product?._id ?? '#'}
                 title={product.title}
                 description={product.description}
                 category={product.category}

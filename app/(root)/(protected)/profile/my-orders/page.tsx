@@ -50,7 +50,7 @@ export default function OrdersPage() {
             price: "कीमत"
         },
     }
-    
+
     const t = texts[language] || texts.en;
 
     useEffect(() => {
@@ -79,7 +79,7 @@ export default function OrdersPage() {
             </div>
             {orders && orders.length > 0 ? (
                 <div className="space-y-6">
-                    {orders.map((order) => (
+                    {orders.toSorted((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()).map((order) => (
                         <Card key={order._id} className="w-full">
                             <CardHeader className="sr-only">
                                 <CardTitle className="sr-only">Order</CardTitle>

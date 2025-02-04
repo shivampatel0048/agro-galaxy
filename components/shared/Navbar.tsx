@@ -10,6 +10,7 @@ import LanguageSelection from "./LanguageSelection";
 import { getToken, removeToken } from "@/utils/tokenUtils";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { fetchCart } from "@/redux/features/cartSlice";
+import { removeRole } from "@/utils/roleUtils";
 
 const navLinks = [
   { label: "Products", href: "/products" },
@@ -50,6 +51,10 @@ const Navbar = () => {
 
   const handleLogout = () => {
     removeToken();
+    removeRole();
+    if (typeof window === "undefined") {
+      localStorage.clear();
+    }
     router.push("/sign-in");
     router.refresh();
   };

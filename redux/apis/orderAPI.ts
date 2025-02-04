@@ -1,4 +1,4 @@
-import { Order, OrderData } from "@/types/order";
+import { AllOrders, Order, OrderData } from "@/types/order";
 import API from "@/utils/config";
 import { toast } from "sonner";
 
@@ -15,7 +15,7 @@ export const createOrder = async (orderData: OrderData): Promise<{ order: Order 
 };
 
 // Update an order by its ID
-export const updateOrder = async (orderId: string, orderData: { status: string }): Promise<{ order: Order }> => {
+export const updateOrder = async (orderId: string, orderData: { status: string, paymentStatus: string }): Promise<{ order: Order }> => {
     try {
         const response = await API.put(`/api/order/${orderId}`, orderData);
         toast.success("Order updated successfully.");
@@ -61,7 +61,7 @@ export const cancelOrder = async (orderId: string): Promise<{ message: string }>
 };
 
 // Get all orders (admin)
-export const getAllOrders = async (): Promise<{ orders: Order[] }> => {
+export const getAllOrders = async (): Promise<{ orders: AllOrders[] }> => {
     try {
         const response = await API.get("/api/order");
         return { orders: response.data };

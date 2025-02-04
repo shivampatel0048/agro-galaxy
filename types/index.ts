@@ -1,5 +1,5 @@
 export interface Product {
-    _id: string;
+    _id?: string;
     title: {
         en: string;
         hi: string;
@@ -7,6 +7,10 @@ export interface Product {
     description: {
         en: string;
         hi: string;
+    };
+    moreDetails: {
+        en: string
+        hi: string
     };
     price: number;
     discountPercentage: number;
@@ -21,7 +25,7 @@ export interface Product {
         hi: string;
     };
     thumbnail: string;
-    deleted: boolean;
+    deleted?: boolean;
     __v?: number;
     averageRating?: number;
     reviews?: string[] | Review[];

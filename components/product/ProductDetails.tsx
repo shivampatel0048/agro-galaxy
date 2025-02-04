@@ -18,10 +18,13 @@ import { addToCart, fetchCart } from "@/redux/features/cartSlice"
 import { timeAgo } from "@/lib/utils"
 import { getUserId } from "@/utils/userUtils"
 import { getToken } from "@/utils/tokenUtils"
+import { useRouter } from "next/navigation"
+import LoadingUI from "../loaders/LoadingUI"
 
 const ProductDetails: React.FC<{ id: string }> = ({ id }) => {
     const dispatch = useAppDispatch();
     const mainUserId = getUserId() ?? null;
+    const router = useRouter();
     const token = getToken();
     const { currentProduct: product } = useAppSelector((state) => state.products)
     const { language } = useLanguage()
@@ -36,7 +39,7 @@ const ProductDetails: React.FC<{ id: string }> = ({ id }) => {
     }, [id, dispatch])
 
     if (!product) {
-        return <div className="container mx-auto p-4">Loading...</div>
+        return <LoadingUI />
     }
 
     const discountedPrice = product.price - (product.price * product.discountPercentage) / 100
@@ -74,6 +77,11 @@ const ProductDetails: React.FC<{ id: string }> = ({ id }) => {
     }
 
     const handleAddToCart = () => {
+        if (!token) {
+            toast.info('Please sign in to add item to cart')
+            router.push('/sign-in')
+        }
+
         const cartItemData = {
             productId: id,
             quantity: 1,

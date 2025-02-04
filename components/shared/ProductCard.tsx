@@ -6,6 +6,8 @@ import { useAppDispatch } from "@/redux/hooks";
 import { addToCart, fetchCart } from "@/redux/features/cartSlice";
 import { getToken } from "@/utils/tokenUtils";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 interface ProductCardProps {
   id: string;
@@ -35,6 +37,8 @@ const ProductCard: React.FC<ProductCardProps> = ({
   language,
 }) => {
   const dispatch = useAppDispatch();
+  const token = getToken()
+  const router = useRouter();
 
   const discountedPrice = (price - (price * discountPercentage) / 100).toFixed(
     2
@@ -50,6 +54,11 @@ const ProductCard: React.FC<ProductCardProps> = ({
   }, [isAddedToCart, dispatch]);
 
   const handleAddToCart = () => {
+    if (!token) {
+      toast.info('Please sign in to add item to cart')
+      router.push('/sign-in')
+    }
+
     const cartItemData = {
       productId: id,
       quantity: 1,
@@ -86,22 +95,10 @@ const ProductCard: React.FC<ProductCardProps> = ({
         <h3 className="text-lg font-semibold text-gray-800">
           {title[language]}
         </h3>
-        <p className="text-sm text-gray-500 mt-1">{description[language]}</p>
-        {/* <p className="text-sm text-gray-500 mt-1">
-          {language === "en" ? "Category" : "श्रेणी"}: {category[language]}
-        </p> */}
-        {/* <p className="text-sm text-gray-500 mt-1">
-          {language === "en" ? "Brand" : "ब्रांड"}: {brand}
-        </p> */}
+        <p className="text-sm text-gray-500 mt-1 line-clamp-2">{description[language]}</p>
         <p className="text-sm text-gray-500 mt-1">
-          {language === "en" ? "Rating" : "रेटिंग"}: {averageRating || "0"}
+          {language === "en" ? "Rating" : "रेटिंग"}: {averageRating.toFixed(2) || "0"}
         </p>
-        {/* <p className="text-sm text-gray-500 mt-1">
-          {language === "en" ? "Stock" : "स्टॉक"}: {stock}
-        </p> */}
-        {/* <p className="text-lg font-bold text-gray-900 mt-2">
-          {language === "en" ? "discountedPrice " : "मूल्य"}: ₹{discountedPrice}
-        </p> */}
         <p className="text-lg font-bold text-gray-900 mt-2 ">
           {language === "en" ? "Price" : "मूल्य"}: ₹{discountedPrice}
         </p>

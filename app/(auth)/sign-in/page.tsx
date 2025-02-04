@@ -11,6 +11,7 @@ import { login } from "@/redux/apis/authAPI";
 import { Loader } from "lucide-react";
 import { toast } from "sonner";
 import { setUserId } from "@/utils/userUtils";
+import { setRole } from "@/utils/roleUtils";
 
 const Page = () => {
   const router = useRouter();
@@ -62,7 +63,12 @@ const Page = () => {
 
       toast.success('Logged in successfully!');
 
-      router.push("/");
+      if (user?.role == 'admin') {
+        setRole(user?.role);
+        router.push("/admin");
+      } else {
+        router.push("/");
+      }
     } catch (error: any) {
       console.error("Login Error:", error);
       toast.error(error.response?.data?.error ||

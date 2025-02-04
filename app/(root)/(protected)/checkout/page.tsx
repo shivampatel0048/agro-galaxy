@@ -9,12 +9,12 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Address } from "@/types";
-import { Loader2 } from "lucide-react";
 import { toast } from "sonner";
-import { createNewOrder } from "@/redux/features/orderSlice";
+import { createNewOrder, fetchUserOrders } from "@/redux/features/orderSlice";
 import { OrderData } from "@/types/order";
 import { useRouter } from "next/navigation";
 import { useLanguage } from "@/constants/context/LanguageProvider";
+import LoadingUI from "@/components/loaders/LoadingUI";
 
 const CheckoutPage = () => {
   const dispatch = useAppDispatch();
@@ -158,7 +158,8 @@ const CheckoutPage = () => {
       const action = await dispatch(createNewOrder(orderData));
       if (action) {
         const isCleared = await dispatch(clearShoppingCart()).unwrap();
-        if (isCleared) router.push("/");
+        await dispatch(fetchUserOrders())
+        if (isCleared) router.push("/profile/my-orders");
       } else {
         toast.error(t.errorPlaceOrder);
       }
@@ -166,6 +167,8 @@ const CheckoutPage = () => {
       toast.error(t.errorPlaceOrder);
     }
   };
+
+  if (status === "loading" || cartStatus === "loading") return <LoadingUI />
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
