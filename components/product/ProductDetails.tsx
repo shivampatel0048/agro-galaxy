@@ -174,12 +174,11 @@ const ProductDetails: React.FC<{ id: string }> = ({ id }) => {
                                     🛍 {language === "en" ? "Buy" : "खरीदें"}
                                 </button>
                             </div>
-                            {/* Uncomment and implement when moreDetails is available
-                            <div>
+                            {/* Uncomment and implement when moreDetails is available */}
+                            {product?.moreDetails && <div>
                                 <span className="font-semibold">More Details:</span>
-                                <div dangerouslySetInnerHTML={{ __html: product.moreDetails }} />
-                            </div>
-                            */}
+                                <div dangerouslySetInnerHTML={{ __html: product.moreDetails[language] }} />
+                            </div>}
                         </div>
                     </div>
                     <Separator className="my-6" />
