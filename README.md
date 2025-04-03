@@ -1,36 +1,75 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
-## Getting Started
+# 🌱 Agro Galaxy - eCommerce Platform for Agricultural Products
 
-First, run the development server:
+Agro Galaxy is a modern eCommerce platform designed to provide farmers and gardeners with easy access to high-quality agricultural products, including seeds, fertilizers, pesticides, and tools. Built using the **MERN Stack**, **Next.js**, and **TypeScript**, this platform ensures a seamless shopping experience with secure transactions and optimized performance.
+
+## 🚀 Features
+
+- 🛒 **Comprehensive Product Catalog** – Browse and purchase a wide range of agricultural products.
+- 🔍 **User-Friendly Interface** – Simplified navigation for an intuitive shopping experience.
+- 💳 **Secure Payments** – Integrated payment gateways for hassle-free transactions.
+- 📦 **Efficient Order Management** – Streamlined order processing and timely delivery.
+- 🌿 **Eco-Friendly Solutions** – Supports sustainable and organic farming practices.
+- 📸 **Image Optimization** – Uses **ImageKit** for fast and efficient image delivery.
+
+## 🛠️ Tech Stack
+
+- **Frontend:** Next.js, TypeScript, Tailwind CSS
+- **Backend:** Node.js, Express.js, MongoDB
+- **ORM:** Mongoose
+- **Storage & Optimization:** ImageKit
+- **Authentication:** JWT-based authentication system
+- **Hosting:** Vercel (Frontend), Render (Backend)
+
+## 🔧 Installation & Setup
+
+Clone the repository:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone https://github.com/shivampatel0048/agro-galaxy.git
+cd agro-galaxy
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Install Dependencies
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+# Install frontend dependencies
+cd client
+npm install
+# or
+yarn install
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+# Install backend dependencies
+cd ../server
+npm install
+# or
+yarn install
+```
 
-## Learn More
+### Run the Development Server
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+# Start the backend server
+cd server
+npm run dev
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+# Start the frontend (Next.js) server
+cd ../client
+npm run dev
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Open [http://localhost:3000](http://localhost:3000) to view the frontend. The backend runs on [http://localhost:5000](http://localhost:5000).
 
-## Deploy on Vercel
+## 🌍 Live Demo
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- **Frontend:** [agro-galaxy.vercel.app](https://agro-galaxy.vercel.app)
+- **Backend:** Hosted on Render (URL available upon request)
+- **GitHub Repository:** [Agro Galaxy](https://github.com/shivampatel0048/agro-galaxy)
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 📜 License
+
+This project is open-source and available under the [MIT License](LICENSE).
+
+---
+
+🚜 Happy Farming! 🌾
