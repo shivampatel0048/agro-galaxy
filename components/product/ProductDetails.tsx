@@ -1,6 +1,6 @@
 "use client"
 
-import { useLanguage } from "@/constants/context/LanguageProvider"
+import { useLanguage } from "@/context/LanguageProvider"
 import { fetchProductById } from "@/redux/features/ProductSlice"
 import { useAppDispatch, useAppSelector } from "@/redux/hooks"
 import type React from "react"
@@ -174,14 +174,19 @@ const ProductDetails: React.FC<{ id: string }> = ({ id }) => {
                                     🛍 {language === "en" ? "Buy" : "खरीदें"}
                                 </button>
                             </div>
-                            {/* Uncomment and implement when moreDetails is available */}
-                            {product?.moreDetails && <div>
-                                <span className="font-semibold">More Details:</span>
-                                <div dangerouslySetInnerHTML={{ __html: product.moreDetails[language] }} />
-                            </div>}
                         </div>
                     </div>
-                    <Separator className="my-6" />
+                    {/* <Separator className="my-6" /> */}
+                    {/* Uncomment and implement when moreDetails is available */}
+                    {product?.moreDetails &&
+                        <>
+                            <div className="mt-6">
+                                <span className="font-semibold">More Details:</span>
+                                <div dangerouslySetInnerHTML={{ __html: product.moreDetails[language] }} />
+                            </div>
+                            <Separator className="my-6" />
+                        </>
+                    }
                     <div>
                         <h2 className="text-2xl font-bold mb-4">Reviews</h2>
                         {product?.reviews && product?.reviews?.length > 0 ? (

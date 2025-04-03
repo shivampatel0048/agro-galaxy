@@ -65,7 +65,7 @@ const Page = () => {
 
       if (user?.role == 'admin') {
         setRole(user?.role);
-        router.push("/admin");
+        router.push("/admin/products");
       } else {
         router.push("/");
       }
@@ -143,7 +143,7 @@ const Page = () => {
               </span>
             </div>
             <div className="flex items-center justify-end text-sm text-gray-500">
-              <Link href="/forgot" className="text-green-600 hover:underline">
+              <Link href={`/forgot-password`} className="text-green-600 hover:underline">
                 Forgot password
               </Link>
             </div>

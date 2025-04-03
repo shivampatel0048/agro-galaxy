@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
-import { LanguageProvider } from "@/constants/context/LanguageProvider";
-import StoreProvider from "@/constants/context/StoreProvider";
+import { LanguageProvider } from "@/context/LanguageProvider";
+import StoreProvider from "@/context/StoreProvider";
 import { Toaster } from "@/components/ui/sonner";
 
 const geistSans = localFont({
@@ -39,3 +39,5 @@ export default function RootLayout({
     </html>
   );
 }
+
+// payU  ka payment integration 

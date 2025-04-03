@@ -1,11 +1,12 @@
 import Link from "next/link"
-import { Home, Package, ShoppingCart, Users } from 'lucide-react'
+import { BadgeInfo, Home, Package, ShoppingCart, Users } from 'lucide-react'
 
 const navItems = [
-    { href: "/admin", icon: Home, label: "Dashboard" },
+    // { href: "/admin", icon: Home, label: "Dashboard" },
     { href: "/admin/products", icon: Package, label: "Products" },
     { href: "/admin/orders", icon: ShoppingCart, label: "Orders" },
     { href: "/admin/users", icon: Users, label: "Users" },
+    { href: "/admin/support", icon: BadgeInfo, label: "Contact Support" },
 ]
 
 export function Sidebar() {

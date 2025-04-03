@@ -6,7 +6,7 @@ import { fetchCart, removeFromCart } from "@/redux/features/cartSlice";
 import { getToken } from "@/utils/tokenUtils";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { useLanguage } from "@/constants/context/LanguageProvider";
+import { useLanguage } from "@/context/LanguageProvider";
 import LoadingUI from "@/components/loaders/LoadingUI";
 
 const CartPage = () => {

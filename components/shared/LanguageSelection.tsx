@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Languages } from "lucide-react";
 import { Button } from "../ui/button";
-import { useLanguage } from "@/constants/context/LanguageProvider";
+import { useLanguage } from "@/context/LanguageProvider";
 
 const LanguageSelection = () => {
   const { language, setLanguage } = useLanguage();

@@ -13,7 +13,7 @@ import { toast } from "sonner";
 import { createNewOrder, fetchUserOrders } from "@/redux/features/orderSlice";
 import { OrderData } from "@/types/order";
 import { useRouter } from "next/navigation";
-import { useLanguage } from "@/constants/context/LanguageProvider";
+import { useLanguage } from "@/context/LanguageProvider";
 import LoadingUI from "@/components/loaders/LoadingUI";
 
 const CheckoutPage = () => {

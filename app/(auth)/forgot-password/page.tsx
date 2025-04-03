@@ -5,21 +5,27 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Section } from "@/components/ui/Section";
 import { toast } from "sonner";
+import { forgotPassword } from "@/redux/apis/authAPI";
+import { useRouter } from "next/navigation";
 
 const Page = () => {
   const [email, setEmail] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const router = useRouter();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
 
-    // Simulate sending a password reset link
-    setTimeout(() => {
-      toast.success(`Password reset link has been sent to ${email}.`);
+    try {
+      const response = await forgotPassword(email);
+      toast.success(response.message);
+      router.push(`/reset-password?email=${encodeURIComponent(email)}`);
+    } catch (error: any) {
+      toast.error(error.response?.data?.message || "Something went wrong");
+    } finally {
       setIsSubmitting(false);
-      setEmail("");
-    }, 1500);
+    }
   };
 
   return (

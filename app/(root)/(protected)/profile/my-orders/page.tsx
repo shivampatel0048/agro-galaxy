@@ -10,7 +10,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Separator } from "@/components/ui/separator"
 import Image from "next/image"
 import Link from "next/link"
-import { useLanguage } from "@/constants/context/LanguageProvider"
+import { useLanguage } from "@/context/LanguageProvider"
 
 export default function OrdersPage() {
     const dispatch = useAppDispatch()

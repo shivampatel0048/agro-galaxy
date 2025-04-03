@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { Section } from "@/components/ui/Section";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
-import { useLanguage } from "@/constants/context/LanguageProvider";
+import { useLanguage } from "@/context/LanguageProvider";
 
 export const AboutSection = () => {
   const [currentImage, setCurrentImage] = useState(0);
@@ -63,11 +63,10 @@ export const AboutSection = () => {
               key={src}
               src={src}
               alt={`About us ${index + 1}`}
-              className={`absolute inset-0 h-full w-full object-cover transition-transform duration-1000 ease-in-out ${
-                currentImage === index
+              className={`absolute inset-0 h-full w-full object-cover transition-transform duration-1000 ease-in-out ${currentImage === index
                   ? "opacity-100 scale-100"
                   : "opacity-0 scale-95"
-              }`}
+                }`}
               height={800}
               width={800}
             />

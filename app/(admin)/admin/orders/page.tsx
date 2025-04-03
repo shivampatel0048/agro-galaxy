@@ -115,115 +115,136 @@ export default function OrdersPage() {
     if (status === "loading") return <AdminLoader />
 
     return (
-        <div>
-            <h1 className="text-3xl font-bold mb-4">Orders</h1>
-            <Input
-                type="text"
-                placeholder="Search orders..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="mb-4"
-            />
-            <div className="rounded-[0.75rem] overflow-hidden border">
+        <div className="p-6 space-y-6 max-w-[1400px] mx-auto">
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6">
+                <h1 className="text-3xl font-bold tracking-tight">Orders Management</h1>
+                <div className="w-full md:w-[320px]">
+                    <Input
+                        type="text"
+                        placeholder="Search by order ID, status, customer..."
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                        className="w-full"
+                    />
+                </div>
+            </div>
+
+            <div className="bg-white rounded-lg shadow-sm border overflow-hidden">
                 <Table>
                     <TableHeader>
-                        <TableRow className="h-14 bg-gray-200 text-black/80 hover:!bg-white/60 !transition-all !duration-300">
-                            <TableHead>User Name</TableHead>
-                            {/* <TableHead>Email Id</TableHead> */}
-                            <TableHead>Phone No.</TableHead>
-                            <TableHead>Products</TableHead>
-                            <TableHead>Total Price</TableHead>
-                            <TableHead>Order Status</TableHead>
-                            <TableHead>Payment Status</TableHead>
-                            <TableHead>Created At</TableHead>
-                            <TableHead>Actions</TableHead>
+                        <TableRow className="bg-gray-50 hover:bg-gray-50/90">
+                            <TableHead className="font-semibold">User Name</TableHead>
+                            <TableHead className="font-semibold">Phone No.</TableHead>
+                            <TableHead className="font-semibold">Products</TableHead>
+                            <TableHead className="font-semibold">Total Price</TableHead>
+                            <TableHead className="font-semibold">Order Status</TableHead>
+                            <TableHead className="font-semibold">Payment Status</TableHead>
+                            <TableHead className="font-semibold">Created At</TableHead>
+                            <TableHead className="font-semibold">Actions</TableHead>
                         </TableRow>
                     </TableHeader>
                     <TableBody>
-                        {currentOrders?.length > 0 && currentOrders?.toSorted((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())?.map((order) => (
-                            <TableRow key={order._id}>
-                                <TableCell>{order.userId?.name}</TableCell>
-                                {/* <TableCell>{order.userId?.email}</TableCell> */}
-                                <TableCell>{order.userId?.phone ?? "Not found"}</TableCell>
-                                <TableCell>
-                                    {order.items.map((item) => (
-                                        <div key={item.product._id}>
-                                            {item.product.title.en} (x{item.quantity})
-                                        </div>
-                                    ))}
-                                </TableCell>
-                                <TableCell>₹{order.totalPrice.toFixed(2)}</TableCell>
-                                <TableCell>
-                                    <Select
-                                        value={editingStatus[order._id]?.order ?? order.orderStatus}
-                                        onValueChange={(value) => handleStatusChange(order._id, "order", value)}
-                                    >
-                                        <SelectTrigger
-                                            className={cn(
-                                                "w-[8rem]",
-                                                getStatusColor(editingStatus[order._id]?.order ?? order.orderStatus)
-                                            )}
-                                        >
-                                            <SelectValue placeholder="Select status" />
-                                        </SelectTrigger>
-                                        <SelectContent>
-                                            {orderStatuses.map((status) => (
-                                                <SelectItem key={status} value={status}>
-                                                    {status}
-                                                </SelectItem>
-                                            ))}
-                                        </SelectContent>
-                                    </Select>
-                                </TableCell>
-                                <TableCell>
-                                    <Select
-                                        value={editingStatus[order._id]?.payment ?? order.paymentStatus}
-                                        onValueChange={(value) => handleStatusChange(order._id, "payment", value)}
-                                    >
-                                        <SelectTrigger
-                                            className={cn(
-                                                "w-[8rem]",
-                                                getStatusColor(editingStatus[order._id]?.payment ?? order.paymentStatus)
-                                            )}
-                                        >
-                                            <SelectValue placeholder="Select payment status" />
-                                        </SelectTrigger>
-                                        <SelectContent>
-                                            {paymentStatuses.map((status) => (
-                                                <SelectItem key={status} value={status}>
-                                                    {status}
-                                                </SelectItem>
-                                            ))}
-                                        </SelectContent>
-                                    </Select>
-                                </TableCell>
-                                <TableCell>{formatDate(new Date(order.createdAt.toString()))}</TableCell>
-                                <TableCell>
-                                    {(editingStatus[order._id]?.order !== undefined &&
-                                        editingStatus[order._id]?.order !== order.orderStatus) ||
-                                        (editingStatus[order._id]?.payment !== undefined &&
-                                            editingStatus[order._id]?.payment !== order.paymentStatus) ? (
-                                        <Button onClick={() => handleStatusUpdate(order._id)}>
-                                            <Check className="h-4 w-4" />
-                                        </Button>
-                                    ) : null}
-                                </TableCell>
-                            </TableRow>
-                        ))}
-
-                        {currentOrders?.length === 0 && (
+                        {currentOrders?.length > 0 ? (
+                            currentOrders
+                                ?.toSorted((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
+                                ?.map((order) => (
+                                    <TableRow key={order._id} className="hover:bg-gray-50/50">
+                                        <TableCell className="font-medium">{order.userId?.name}</TableCell>
+                                        <TableCell>{order.userId?.phone ?? "Not found"}</TableCell>
+                                        <TableCell>
+                                            <div className="space-y-1">
+                                                {order.items.map((item) => (
+                                                    <div key={item.product._id} className="text-sm">
+                                                        {item.product.title.en}{" "}
+                                                        <span className="text-gray-500">
+                                                            (x{item.quantity})
+                                                        </span>
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        </TableCell>
+                                        <TableCell className="font-medium">₹{order.totalPrice.toFixed(2)}</TableCell>
+                                        <TableCell>
+                                            <Select
+                                                value={editingStatus[order._id]?.order ?? order.orderStatus}
+                                                onValueChange={(value) => handleStatusChange(order._id, "order", value)}
+                                            >
+                                                <SelectTrigger
+                                                    className={cn(
+                                                        "w-[8rem] font-medium",
+                                                        getStatusColor(editingStatus[order._id]?.order ?? order.orderStatus)
+                                                    )}
+                                                >
+                                                    <SelectValue placeholder="Select status" />
+                                                </SelectTrigger>
+                                                <SelectContent>
+                                                    {orderStatuses.map((status) => (
+                                                        <SelectItem key={status} value={status}>
+                                                            {status}
+                                                        </SelectItem>
+                                                    ))}
+                                                </SelectContent>
+                                            </Select>
+                                        </TableCell>
+                                        <TableCell>
+                                            <Select
+                                                value={editingStatus[order._id]?.payment ?? order.paymentStatus}
+                                                onValueChange={(value) => handleStatusChange(order._id, "payment", value)}
+                                            >
+                                                <SelectTrigger
+                                                    className={cn(
+                                                        "w-[8rem] font-medium",
+                                                        getStatusColor(editingStatus[order._id]?.payment ?? order.paymentStatus)
+                                                    )}
+                                                >
+                                                    <SelectValue placeholder="Select payment status" />
+                                                </SelectTrigger>
+                                                <SelectContent>
+                                                    {paymentStatuses.map((status) => (
+                                                        <SelectItem key={status} value={status}>
+                                                            {status}
+                                                        </SelectItem>
+                                                    ))}
+                                                </SelectContent>
+                                            </Select>
+                                        </TableCell>
+                                        <TableCell className="text-gray-600">
+                                            {formatDate(new Date(order.createdAt.toString()))}
+                                        </TableCell>
+                                        <TableCell>
+                                            {(editingStatus[order._id]?.order !== undefined &&
+                                                editingStatus[order._id]?.order !== order.orderStatus) ||
+                                                (editingStatus[order._id]?.payment !== undefined &&
+                                                    editingStatus[order._id]?.payment !== order.paymentStatus) ? (
+                                                <Button
+                                                    onClick={() => handleStatusUpdate(order._id)}
+                                                    size="sm"
+                                                    className="bg-green-600 hover:bg-green-700"
+                                                >
+                                                    <Check className="h-4 w-4" />
+                                                </Button>
+                                            ) : null}
+                                        </TableCell>
+                                    </TableRow>
+                                ))
+                        ) : (
                             <TableRow>
-                                <TableCell colSpan={8} className="text-center">
-                                    No orders found
+                                <TableCell colSpan={8}>
+                                    <div className="text-center py-10">
+                                        <p className="text-gray-500 text-lg">No orders found</p>
+                                        <p className="text-gray-400 text-sm mt-1">Try adjusting your search criteria</p>
+                                    </div>
                                 </TableCell>
                             </TableRow>
                         )}
                     </TableBody>
                 </Table>
             </div>
-            {currentOrders?.length > 0 && <div className="mt-4 flex justify-center">
-                <Pagination currentPage={currentPage} totalPages={totalPages} paginate={paginate} />
-            </div>}
+            {currentOrders?.length > 0 && (
+                <div className="mt-6 flex justify-center">
+                    <Pagination currentPage={currentPage} totalPages={totalPages} paginate={paginate} />
+                </div>
+            )}
         </div>
     )
 }

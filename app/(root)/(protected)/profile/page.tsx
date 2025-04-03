@@ -13,7 +13,7 @@ import { CirclePlus } from "lucide-react"
 import { toast } from "sonner"
 import { getToken } from "@/utils/tokenUtils"
 import Link from "next/link"
-import { useLanguage } from "@/constants/context/LanguageProvider";
+import { useLanguage } from "@/context/LanguageProvider";
 import LoadingUI from "@/components/loaders/LoadingUI"
 
 // Translations for English and Hindi

@@ -1,14 +1,23 @@
 "use client";
 
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Section } from "@/components/ui/Section";
 import { Textarea } from "@/components/ui/textarea";
-import { useLanguage } from "@/constants/context/LanguageProvider";
+import { useLanguage } from "@/context/LanguageProvider";
 import { toast } from "sonner";
+import { submitContact } from "@/redux/apis/contact";
 
 const Page = () => {
   const { language } = useLanguage();
+  const [loading, setLoading] = useState(false);
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    subject: "",
+    message: "",
+  });
 
   const texts = {
     en: {
@@ -58,11 +67,25 @@ const Page = () => {
 
   const currentTexts = texts[language] || texts.en;
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    toast.success(currentTexts.toastMessage, {
-      description: currentTexts.toastDescription,
-    });
+    setLoading(true);
+
+    try {
+      await submitContact(formData.name, formData.email, formData.subject, formData.message);
+      toast.success(currentTexts.toastMessage, {
+        description: currentTexts.toastDescription,
+      });
+      setFormData({ name: "", email: "", subject: "", message: "" });
+    } catch (error) {
+      toast.error("Failed to send message. Please try again later.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -122,31 +145,44 @@ const Page = () => {
           <div className="bg-white shadow-lg rounded-lg p-8 animate-slide-in">
             <form onSubmit={handleSubmit} className="space-y-6">
               <Input
+                name="name"
+                value={formData.name}
+                onChange={handleChange}
                 placeholder={currentTexts.form.namePlaceholder}
                 required
                 className="rounded-lg border-gray-300 focus:ring-indigo-500"
               />
               <Input
                 type="email"
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
                 placeholder={currentTexts.form.emailPlaceholder}
                 required
                 className="rounded-lg border-gray-300 focus:ring-indigo-500"
               />
               <Input
+                name="subject"
+                value={formData.subject}
+                onChange={handleChange}
                 placeholder={currentTexts.form.subjectPlaceholder}
                 required
                 className="rounded-lg border-gray-300 focus:ring-indigo-500"
               />
               <Textarea
+                name="message"
+                value={formData.message}
+                onChange={handleChange}
                 placeholder={currentTexts.form.messagePlaceholder}
                 className="min-h-[150px] rounded-lg border-gray-300 focus:ring-indigo-500"
                 required
               />
               <Button
                 type="submit"
-                className="w-full bg-indigo-700 hover:bg-indigo-800 text-white font-bold py-3 rounded-lg transition-all"
+                className="w-full bg-indigo-700 hover:bg-indigo-800 text-white font-bold py-3 rounded-lg transition-all flex items-center justify-center"
+                disabled={loading}
               >
-                {currentTexts.form.submitButton}
+                {loading ? "Sending..." : currentTexts.form.submitButton}
               </Button>
             </form>
           </div>

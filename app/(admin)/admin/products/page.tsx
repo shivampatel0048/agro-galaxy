@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
-import { useLanguage } from "@/constants/context/LanguageProvider";
+import { useLanguage } from "@/context/LanguageProvider";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { RootState } from "@/redux/store";
 import { fetchProducts } from "@/redux/features/ProductSlice";

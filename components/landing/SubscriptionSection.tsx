@@ -6,7 +6,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { useState } from "react";
 import { Button } from "../ui/button";
 import Image from "next/image";
-import { useLanguage } from "@/constants/context/LanguageProvider"; // Assuming you have a LanguageContext
+import { useLanguage } from "@/context/LanguageProvider"; // Assuming you have a LanguageContext
 import { toast } from "sonner";
 
 export const SubscriptionSection = () => {

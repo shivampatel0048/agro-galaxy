@@ -50,21 +50,22 @@ export const forgotPassword = async (email: string): Promise<{ message: string }
 
 // Reset Password
 export const resetPassword = async (
-  token: string,
+  email: string,
+  otp: string,
   newPassword: string
 ): Promise<{ message: string }> => {
   try {
     const response = await API.post("/api/auth/reset-password", {
-      token,
+      email,
+      otp,
       newPassword,
     });
     return { message: response.data.message };
   } catch (error) {
-    console.error("Error during reset password:", error);
+    console.error("Error during password reset:", error);
     throw error;
   }
 };
-
 // Change Password
 export const changePassword = async (
   oldPassword: string,
@@ -78,6 +79,22 @@ export const changePassword = async (
     return { message: response.data.message };
   } catch (error) {
     console.error("Error during change password:", error);
+    throw error;
+  }
+};
+
+// Update Password by userId
+export const updatePasswordByUserId = async (
+  id: string,
+  newPassword: string
+): Promise<{ message: string }> => {
+  try {
+    const response = await API.put("/api/auth/update-password", {
+      id, newPassword,
+    });
+    return { message: response.data.message };
+  } catch (error) {
+    console.error("Error updating password:", error);
     throw error;
   }
 };

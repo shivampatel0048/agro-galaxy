@@ -1,6 +1,7 @@
 "use client";
 
 import React, { createContext, useContext, useState, useEffect, useMemo } from "react";
+// import { useCookiesNext } from 'cookies-next';
 
 type Language = 'en' | 'hi';
 
