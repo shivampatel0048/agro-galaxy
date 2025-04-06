@@ -219,7 +219,7 @@ export default function OrdersPage() {
             {orders && orders.length > 0 ? (
                 <div className="space-y-8">
                     <Tabs defaultValue="all" className="w-full">
-                        <div className="border-b border-gray-200 overflow-x-auto">
+                        <div className="border-b border-gray-200 overflow-x-auto sr-only">
                             <TabsList className="bg-transparent h-auto p-0 w-full justify-start">
                                 <TabsTrigger
                                     value="all"
