@@ -118,14 +118,18 @@ export default function ProductsPage() {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault()
 
-
         if (product.thumbnail === '') {
             return toast.error("Please upload the image first.")
         }
 
         try {
-            const { _id, ...productWithoutId } = product
-            const productToSave = { ...productWithoutId }
+            const { _id, ...productData } = product
+            // Include all product data including the thumbnail
+            const productToSave = {
+                ...productData,
+                thumbnail: preview || product.thumbnail // Use preview if available, fallback to existing thumbnail
+            }
+
             if (product._id === '') {
                 await dispatch(addNewProduct(productToSave))
                 await dispatch(fetchProducts());
@@ -135,8 +139,10 @@ export default function ProductsPage() {
                 })
             } else {
                 if (!_id) return;
-                // @ts-ignore
-                await dispatch(updateExistingProduct({ id: _id, productToSave }));
+                await dispatch(updateExistingProduct({
+                    id: _id,
+                    productData: productToSave // Send complete product data including thumbnail
+                }));
                 await dispatch(fetchProducts());
 
                 toast.success("Product Updated", {

@@ -1,18 +1,31 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useLanguage } from "@/context/LanguageProvider";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { RootState } from "@/redux/store";
-import { fetchProducts } from "@/redux/features/ProductSlice";
+import { fetchProducts, deleteExistingProduct } from "@/redux/features/ProductSlice";
 import LoadingUI from "@/components/loaders/LoadingUI";
 import { Button } from "@/components/ui/button";
 import AdminProductCard from "@/components/admin/AdminProductCard";
 import Link from "next/link";
+import {
+    AlertDialog,
+    AlertDialogAction,
+    AlertDialogCancel,
+    AlertDialogContent,
+    AlertDialogDescription,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
+import { toast } from "sonner";
 
 const Page = () => {
     const dispatch = useAppDispatch();
     const { language } = useLanguage();
+    const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
+    const [productToDelete, setProductToDelete] = useState<string | null>(null);
 
     const {
         products,
@@ -55,6 +68,25 @@ const Page = () => {
         }
     }, [dispatch, productStatus, products]);
 
+    const handleDeleteClick = (productId: string) => {
+        setProductToDelete(productId);
+        setIsDeleteDialogOpen(true);
+    };
+
+    const handleConfirmDelete = async () => {
+        if (!productToDelete) return;
+
+        try {
+            await dispatch(deleteExistingProduct(productToDelete)).unwrap();
+            toast.success("Product deleted successfully");
+        } catch (error) {
+            toast.error("Failed to delete product");
+        } finally {
+            setIsDeleteDialogOpen(false);
+            setProductToDelete(null);
+        }
+    };
+
     if (productStatus === "loading") return <LoadingUI />
 
     return (
@@ -90,6 +122,7 @@ const Page = () => {
                                 brand={product.brand}
                                 thumbnail={product.thumbnail}
                                 averageRating={Number(`${product.averageRating}`)}
+                                onDelete={() => handleDeleteClick(product._id ?? '')}
                             />
                         ))}
                     </div>
@@ -97,6 +130,27 @@ const Page = () => {
                     <p>{currentTexts.noProducts}</p>
                 )}
             </div>
+
+            <AlertDialog open={isDeleteDialogOpen} onOpenChange={setIsDeleteDialogOpen}>
+                <AlertDialogContent>
+                    <AlertDialogHeader>
+                        <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                        <AlertDialogDescription>
+                            This action cannot be undone. This will permanently delete the
+                            product from the database.
+                        </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter>
+                        <AlertDialogCancel>Cancel</AlertDialogCancel>
+                        <AlertDialogAction
+                            onClick={handleConfirmDelete}
+                            className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+                        >
+                            Delete
+                        </AlertDialogAction>
+                    </AlertDialogFooter>
+                </AlertDialogContent>
+            </AlertDialog>
         </div>
     );
 };

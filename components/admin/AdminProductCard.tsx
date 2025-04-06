@@ -16,6 +16,7 @@ interface AdminProductCardProps {
   brand: string;
   thumbnail: string;
   averageRating: number;
+  onDelete?: () => void; // Optional delete function prop
 }
 
 const AdminProductCard: React.FC<AdminProductCardProps> = ({
@@ -29,6 +30,7 @@ const AdminProductCard: React.FC<AdminProductCardProps> = ({
   brand,
   thumbnail,
   averageRating,
+  onDelete,
 }) => {
   const router = useRouter();
 
@@ -71,6 +73,7 @@ const AdminProductCard: React.FC<AdminProductCardProps> = ({
         </p>
         <div className="mt-4 flex flex-col gap-4 sm:flex-row-reverse sm:justify-between items-center">
           <button
+            onClick={onDelete}
             className="flex items-center justify-center w-full sm:w-1/2 px-4 py-2 text-sm font-medium text-gray-600 bg-gray-200 rounded-md hover:bg-gray-300 transition"
           >
             Delete

@@ -19,8 +19,8 @@ const initialState: ProductState = {
 
 // Fix here: the payload of fetchProducts must be typed as Product[]
 export const fetchProducts = createAsyncThunk<Product[]>("products/fetchProducts", async () => {
-    const response = await getProducts(); 
-    return response.products; 
+    const response = await getProducts();
+    return response.products;
 });
 
 export const fetchProductById = createAsyncThunk("products/fetchProductById", async (id: string) => {
@@ -38,10 +38,14 @@ export const updateExistingProduct = createAsyncThunk("products/updateExistingPr
     return response.product;
 });
 
-export const deleteExistingProduct = createAsyncThunk("products/deleteExistingProduct", async (id: string) => {
-    const response = await deleteProduct(id);
-    return response.message;
-});
+// Update the deleteExistingProduct thunk to return the deleted product ID
+export const deleteExistingProduct = createAsyncThunk(
+    "products/deleteExistingProduct",
+    async (id: string) => {
+        await deleteProduct(id);
+        return id; // Return the ID instead of the message
+    }
+);
 
 const productSlice = createSlice({
     name: "products",
@@ -101,7 +105,8 @@ const productSlice = createSlice({
             .addCase(deleteExistingProduct.pending, (state) => {
                 state.status = "loading";
             })
-            .addCase(deleteExistingProduct.fulfilled, (state, action) => {
+            // Update the fulfilled case in extraReducers
+            .addCase(deleteExistingProduct.fulfilled, (state, action: PayloadAction<string>) => {
                 state.status = "succeeded";
                 if (state.products) {
                     state.products = state.products.filter((product) => product._id !== action.payload);

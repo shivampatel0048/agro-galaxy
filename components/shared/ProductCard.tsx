@@ -102,7 +102,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
       .unwrap()
       .then(() => {
         setIsAddedToCart(!isAddedToCart);
-        router.push('/cart')
+        router.push('/checkout')
       })
       .catch((error) => {
         console.error("Failed to buy item:", error);
