@@ -42,6 +42,7 @@ const Navbar = () => {
   }, [dispatch, cart, status])
 
   const toggleMenu = () => {
+    router.push('/sign-in')
     setIsMenuOpen(!isMenuOpen);
   };
 
@@ -223,7 +224,7 @@ const Navbar = () => {
                     className="auth-button w-full max-w-xs bg-blue-500 hover:bg-blue-600 text-white"
                     onClick={handleNavClick}
                   >
-                    Sign In
+                    Login
                   </Button>
                 }
               </div>
