@@ -221,8 +221,9 @@ const Navbar = () => {
                 {!token && !isMounted &&
                   <Button
                     variant="default"
+                    type='button'
                     className="auth-button w-full max-w-xs bg-blue-500 hover:bg-blue-600 text-white"
-                    onClick={handleNavClick}
+                    onClick={() => handleNavClick()}
                   >
                     Login
                   </Button>
